@@ -37,7 +37,9 @@
     $(document).ready(function(){
         $(".main-login-form").on('submit', function(e){
             e.preventDefault();
-            $.post('/api/login', {name: 'me'}).done(function(res){
+            const username = $(this).find('#username').val()
+            const password = $(this).find('#password').val()
+            $.post('/api/login', {username: username, password: password}).done(function(res){
                 res = JSON.parse(res);
                 console.log(res);
             })
