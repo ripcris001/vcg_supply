@@ -16,6 +16,15 @@
 			$this->structure->contentFilter->isFile = 0;
 			return $this;
 		}
+		public function update($field, $value, $file){
+			if(isset($this->structure->$field)){
+				if($file){
+					$this->structure->$field = "$value.php";
+				}else{
+					$this->structure->$field = $value;
+				}
+			}
+		}
 		public function content($data, $file = false){
 			if($file){
 				$this->structure->content = $this->parseExtention($data);

@@ -2,10 +2,11 @@
 	
 
 	# database configuration
-	Define("DBHOST", "");
-	Define("DBUSER", "");
+	Define("DBHOST", "localhost");
+	Define("DBUSER", "root");
 	Define("DBPASS", "");
-	Define("DBNAME", "");
+	Define("DBNAME", "vgc_supply");
+	Define("DBPREFIX", "vgc_");
 
 	# default asset path
 	Define("BASEPATH", "/vcg_system");
@@ -40,4 +41,7 @@
 		)
 	);
 	Define("ROOT_URL", BASEPATH);
+
+	# session timeout is base on seconds;
+	Define("SESSION_TIMEOUT", 300);
 ?>
