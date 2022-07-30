@@ -15,5 +15,9 @@
 					print_r("Session has expired");
 				}
 		break;
+		case '/test/query':
+				$request->route = "query";
+				$core->route($request, true);
+		break;
 	}
 ?>

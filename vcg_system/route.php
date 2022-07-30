@@ -15,6 +15,18 @@
 					$request->route = "api/users";
 					$core->route($request);
 				break;
+				case '/api/product':
+					$request->route = "api/product";
+					$core->route($request);
+				break;
+				case '/api/category':
+					$request->route = "api/category";
+					$core->route($request);
+				break;
+				case '/api/brand':
+					$request->route = "api/brand";
+					$core->route($request);
+				break;
 				default:
 					http_response_code(400);
 					$cout = $vars->obj();
@@ -62,7 +74,7 @@
 				break;
 				default:
 					if(strpos($request->url, "/test") !== false){
-						include("test/feature.php");
+						include("test/routes.php");
 					}else{
 						$template->content("error/404", true)->render("frontstore");
 					}
