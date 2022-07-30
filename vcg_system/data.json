@@ -3,7 +3,7 @@
 		{
 			"id": "1",
 			"title": "Brandix Rim 17 Inci",
-			"price": "$189.00",
+			"price": "₱189.00",
 			"img": "/vcg_system/component/theme/frontstore/assets/img/shop/shop-1.png",
 			"details": {
 				"Speed": "750 RPM" ,
@@ -16,7 +16,7 @@
 		{
 			"id": "2",
 			"title": "Brandix Wheel",
-			"price": "$289.00",
+			"price": "₱289.00",
 			"img": "/vcg_system/component/theme/frontstore/assets/img/shop/shop-2.png",
 			"details": {
 				"Speed": "750 RPM" ,
@@ -29,7 +29,7 @@
 		{
 			"id": "3",
 			"title": "Automotive Motor Filter",
-			"price": "$55.00",
+			"price": "₱55.00",
 			"img": "/vcg_system/component/theme/frontstore/assets/img/shop/shop-3.png",
 			"details": {
 				"Type": "Coil Spring" ,
@@ -42,7 +42,7 @@
 		{
 			"id": "4",
 			"title": "Auto Parts Accessories",
-			"price": "$45.00",
+			"price": "₱45.00",
 			"img": "/vcg_system/component/theme/frontstore/assets/img/shop/shop-4.png",
 			"details": {
 				"Condition": "New",

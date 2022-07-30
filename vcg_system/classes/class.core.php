@@ -12,7 +12,7 @@
 		}
 
 		# bind route file and
-		public function route($data){
+		public function route($data, $test = false){
 			$template = $data->template;
 			$file = $data->route;
 			$path = "$this->rootPath/routes/$file.php";
@@ -22,6 +22,9 @@
 			$db->status = $data->db->status;
 			$db->helper = $data->db->helper;
 			$db->builder = $data->db->builder;
+			if(isset($test) && $test){
+				$path = "$this->rootPath/test/routes/$file.php";
+			}
 			if($data->require->login == 1){
 				if($this->check_session()){
 					if(file_exists($path)){
