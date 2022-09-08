@@ -44,4 +44,10 @@
 
 	# session timeout is base on seconds;
 	Define("SESSION_TIMEOUT", 300);
+	
+	Define("ROUTE_SOURCE", array(
+		"/api" => ["api", "post"],
+		"/pos" => ["pos", "get" ],
+		"/admin" => ["admin", "get" ]
+	));
 ?>

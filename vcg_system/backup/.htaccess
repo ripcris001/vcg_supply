@@ -1,0 +1,23 @@
+#DO NOT CHANGE THESE SETTINGS UNLESS YOU KNOW WHAT YOU'RE DOING
+ErrorDocument 404 /404
+ErrorDocument 403 /403
+
+Options -Indexes
+Options +FollowSymlinks
+
+SetEnv SiteRoot /
+SetEnv TimeZone Asia/Manila
+
+RewriteEngine on
+RewriteBase /	
+
+DirectoryIndex /vcg_system/compile.php?input=home
+
+RewriteRule ^404$ /vcg_system/compile.php?input=404
+RewriteRule ^403$ /vcg_system/compile.php?input=403
+
+# route handler
+RewriteRule ^([a-zA-Z0-9_-]+)$ /vcg_system/compile.php?input=$1
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ /vcg_system/compile.php?input=$1-$2
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ /vcg_system/compile.php?input=$1-$2-$3
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ /vcg_system/compile.php?input=$1-$2-$3-$4
