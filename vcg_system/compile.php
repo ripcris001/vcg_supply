@@ -87,12 +87,14 @@
 	$request->req->method = $_SERVER['REQUEST_METHOD'];
 
 	$request->flag = "";
+	$request->default_pages = "pages";
 
 	if(strpos($serverUrl, "?") !== false){
 	    $request->url = strstr($serverUrl, '?', true);
 	} else{
 	    $request->url = $serverUrl;
 	}
-	
-	include('route.php');
+
+	// Custom routes
+	$core->router($request);
 ?>	

@@ -47,11 +47,52 @@
 			}
 		}
 
+		public function router($request){
+			$core = $this;
+			$__method = $request->req->method;
+			$__url = $request->url;
+			$__array_url = explode("/", $__url);
+			
+			# home page if empty
+			if(empty($__array_url[1])){
+				include("$this->rootPath/route.php");
+			}else{
+				if(isset(ROUTE_SOURCE["/$__array_url[1]"])){
+					$__parse_url = $this->replace_first_str("/$__array_url[1]", "", $__url);
+					if(isset($__parse_url) && strlen($__parse_url) > 0){
+						$request->url = $__parse_url;
+					}else{
+						$request->url = "/";
+					}
+					$source = ROUTE_SOURCE["/$__array_url[1]"][0];
+					$request_type = ROUTE_SOURCE["/$__array_url[1]"][1];
+					if(strtolower($__method) == $request_type || strtolower($request_type) == "all"){
+						include("$this->rootPath/route_config/$source.php");
+					}else{
+						if(strtolower($__method) == "get"){
+							$request->template->content("error/404", true)->render("frontstore");
+						}else{
+							http_response_code(404);
+							$cout = new stdClass();
+							$cout->message = "Error 404: url not found";
+							$cout->status = "false";
+							$core->route($cout);
+						}
+					}
+					
+				}else{
+					include("$this->rootPath/route.php");
+				}
+			}
+		}
 
 		public function redirect($data){
 			header("location: $data");
 		}
 
+		private function replace_first_str($search_str, $replacement_str, $src_str){
+		  return (false !== ($pos = strpos($src_str, $search_str))) ? substr_replace($src_str, $replacement_str, $pos, strlen($search_str)) : $src_str;
+		}
 		# get session data
 		public function check_session(){
 			session_start();

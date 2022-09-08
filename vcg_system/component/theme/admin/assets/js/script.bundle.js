@@ -626,18 +626,6 @@ jQuery('.kt_notes_panel_close').on("click", function(e){
 
 
   // validation for form fields
-
-  jQuery( "#myform" ).validate({
-    rules: {
-      email: {
-        required: true
-      },
-      password : {
-        required: true
-      }
-    }
-  });
-  
 });
 jQuery(document).on('click',function() {
   var sel22 = document.getElementById('typeselect');
@@ -931,55 +919,10 @@ jQuery(document).ready(function() {
       
   }); 
 
-// for classic Editor
-ClassicEditor
-.create( document.querySelector( '#editor' ),{
-    toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ],
-    alignment: {
-      options: [ 'left', 'right' ]
-    }
-})
-
-.catch( error => {
-    console.error( error );
-});
-
-ClassicEditor
-.create( document.querySelector( '#editor3' ),{
-    toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ],
-    alignment: {
-      options: [ 'left', 'right' ]
-    }
-})
-
-.catch( error => {
-    console.error( error );
-});
-
-InlineEditor
-.create( document.querySelector( '#editor2' ) )
-.catch( error => {
-    console.error( error );
-} );
-
 // for data tables
 jQuery(document).ready( function () {
 	jQuery('#myTable').DataTable();
 });
-
-
-(function($){
-  jQuery(window).on("load",function(){
-    jQuery(".my-custom-scrollbar").mCustomScrollbar(
-      {
-        setHeight:true
-      }
-    );
-  });
-})(jQuery);
-
-
-
 
 jQuery(".nav-pills .nav-link").each(function(i){ 
   jQuery(this).click(function(e){
