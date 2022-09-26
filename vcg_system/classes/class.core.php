@@ -15,20 +15,34 @@
 		public function route($data, $test = false){
 			$template = $data->template;
 			$file = $data->route;
-			$path = "$this->rootPath/routes/$file.php";
+			$path = "$this->rootPath/modules/routes/$file.php";
 			$core = $this;
 			$req = $data->req;
+			$helper = $data->helper;
 			$db = new stdClass();
 			$db->status = $data->db->status;
 			$db->helper = $data->db->helper;
 			$db->builder = $data->db->builder;
 			if(isset($test) && $test){
-				$path = "$this->rootPath/test/routes/$file.php";
+				$path = "$this->rootPath/modules/test/routes/$file.php";
 			}
 			if($data->require->login == 1){
+				$routeRoleInput = $core->obj();
+				$routeRoleInput->table = 'url_roles';
+				$routeRoleInput->condition = [
+					["url", "=", $data->fullurl]
+				];
+				$getRouteRole = $data->helper->universal->query($routeRoleInput);
+				$routeRoule = $getRouteRole->status && isset($getRouteRole->data) && count((array)$getRouteRole->data) ? $getRouteRole->data->roles : $core->obj();
+				$routeRoule = isset($routeRoule) && count((array)$routeRoule) ? explode(',', $routeRoule) : array();
 				if($this->check_session()){
 					if(file_exists($path)){
-						include($path);
+						$getUserRole = $this->get_session("login");
+						if(isset($getUserRole) && in_array($getUserRole->user_role_index, $routeRoule) || in_array($getUserRole->user_role_index, $data->specialRole)){
+							include($path);
+						}else{
+							$template->content("error/404", true)->render("frontstore");
+						}
 					}else{
 						$template->content("error/500", true)->render("frontstore");
 					}
@@ -67,7 +81,7 @@
 					$source = ROUTE_SOURCE["/$__array_url[1]"][0];
 					$request_type = ROUTE_SOURCE["/$__array_url[1]"][1];
 					if(strtolower($__method) == $request_type || strtolower($request_type) == "all"){
-						include("$this->rootPath/route_config/$source.php");
+						include("$this->rootPath/modules/route_config/$source.php");
 					}else{
 						if(strtolower($__method) == "get"){
 							$request->template->content("error/404", true)->render("frontstore");
@@ -114,8 +128,8 @@
 
 		public function session_timeout_checker(){
 			$output = $this->output();
-			$session = $this->check_session();
-			if($session){
+			$session = !isset($_SESSION) ? $this->check_session() : false;
+			if(isset($_SESSION)){
 				$current_time = strtotime(date("h:i:sa"));
 				$session_expire_time = $this->get_session("session_expire");
 				if($current_time > $session_expire_time){
@@ -132,14 +146,14 @@
 		}
 
 		public function get_session($param = null){
-			$output = $this->output(false, "No Session!");
-			$session = $this->check_session();
-			if($session){
+			$output = new stdClass();
+			$session = !isset($_SESSION) ? $this->check_session() : false;
+			if(isset($_SESSION)){
 				if(isset($param) && isset($_SESSION[$param])){
-					$output->data = $_SESSION[$param];
+					$output = $_SESSION[$param];
 					return $output;
 				}else{
-					$output->data = $_SESSION;
+					$output = $_SESSION;
 					return $output;
 				}
 			}else{
@@ -226,7 +240,7 @@
 	        $output = new stdClass();
 	        $output->status = $status;
 	        $output->message = $message;
-	        $output->data = $data;
+	        $output->data = $data ? $data : new stdClass();
 	        return $output;
 	    }
 
@@ -235,6 +249,23 @@
 			http_response_code(200);
 			print_r(json_encode($data));
 			exit(1);
+		}
+
+		public function obj(){
+			$object = new stdClass();
+			return $object;
+		}
+
+		public function sidebar($name = "", $url = null, $role = null){
+			$output = new stdClass();
+			$output->name = isset($name) ? $name : "";
+			$output->url = isset($url) ? $url : "#";
+			$output->sub = array();
+			$output->icon = "default";
+			$output->roles = isset($url) ? $role : array();
+			$output->uid = isset($name) ? preg_replace('/\s+/', '_', $name) : '';
+			$output->uid = strtolower("sidebar_".$output->uid);
+			return $output;
 		}
 	}
 ?>

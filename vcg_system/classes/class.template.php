@@ -1,5 +1,5 @@
 <?php
-	class template {
+	class template extends core {
 		public $structure, $contentdata;
 		public function __construct(){}
 		public function set($data){
@@ -7,6 +7,7 @@
 			$this->structure = $data;
 			$this->structure->footer = $this->parseExtention(isset($data->footer) ? $data->footer : 'footer');
 			$this->structure->header = $this->parseExtention(isset($data->header) ? $data->header : 'header');
+			$this->structure->sidebar = $this->parseExtention(isset($data->sidebar) ? $data->sidebar : 'sidebar');
 			$this->structure->template = $this->parseExtention(isset($data->template) ? $data->template : 'template');
 			$this->structure->navbar = $this->parseExtention(isset($data->navbar) ? $data->navbar : 'navbar');
 			$this->structure->themePath = $this->joinPath($data->root, $data->theme->path);
@@ -14,6 +15,7 @@
 			$this->structure->assetPath = "";
 			$this->structure->contentFilter = new stdClass();
 			$this->structure->contentFilter->isFile = 0;
+			$this->structure->sidebarData = isset($data->sidebarData) ? $data->sidebarData : array();
 			return $this;
 		}
 		public function update($field, $value, $file){
@@ -42,10 +44,18 @@
 		}
 
 		public function render($data){
+			if(!isset($_SESSION)){
+				$this->check_session();
+			}
+			
 			$this->theme($data);
 			$this->buildFilePaths($this->structure->contentFilter->isFile);
+
+			$login = $this->get_session('login');
 			$theme = $this->structure;
 			$data = $this->contentdata;
+			$user = isset($_SESSION) ? $this->get_session("login") : $this->obj();
+			$sidebar = $this->structure->sidebarData;
 			include($this->structure->template);
 		}
 		
