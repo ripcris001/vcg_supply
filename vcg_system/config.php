@@ -10,7 +10,7 @@
 
 	# default asset path
 	Define("BASEPATH", "/vcg_system");
-	Define("ASSETPATH", BASEPATH."/component/theme/frontstore/assets");
+	Define("ASSETPATH", BASEPATH."/modules/component/theme/frontstore/assets");
 
 	# web default configuration
 	Define("WEB_TITLE", 'VCG Tire Supply');
@@ -26,13 +26,14 @@
 
 	Define("INFO_LOGO_1", ASSETPATH.'/img/logo/1.png');
 	Define("INFO_LOGO_2", ASSETPATH.'/img/logo/1.png');
+	Define("FAVICON", ASSETPATH.'/img/favicon.png');
 
 	Define("INFO_CURRENCY", "PHP");
 	
 
 	Define("INFO_COPYRIGHT", "2022 VCG");
 	# template theme configuration
-	Define("THEME_PATH", "component/theme");
+	Define("THEME_PATH", "modules/component/theme");
 	Define("THEME_LIST_PATH", 
 		array(
 			"admin" => "admin", 
@@ -44,10 +45,11 @@
 
 	# session timeout is base on seconds;
 	Define("SESSION_TIMEOUT", 300);
-	
 	Define("ROUTE_SOURCE", array(
 		"/api" => ["api", "post"],
 		"/pos" => ["pos", "get" ],
 		"/admin" => ["admin", "get" ]
 	));
+	Define("HELPER", array("component","universal","brand", "user"));
+	Define("SPECIAL_ROLE", array("developer"));
 ?>

@@ -10,10 +10,10 @@
 	// initialize classes
 	$classes = new stdClass();
 	$template = new template();
-	$vars = new variable();
 	$core = new core();
 	$connection = new Connection();
 	$queryBuilder = new Builder();
+	$helper = new stdClass();
 
 	// input
 	$input = isset($_GET["input"]) ? $_GET["input"] : null;
@@ -32,56 +32,66 @@
 		}
 	}
 	
-
 	// database varaibles
-	$sdb = $vars->obj();
+	$sdb = $core->obj();
 	$sdb->status = $connection->MySQL->Connection;
 	$sdb->error = $connection->MySQL->Error;
 	$sdb->builder = $queryBuilder;
 	$sdb->helper = $connection;
 
+	$cHelper = count(HELPER);
+	if($cHelper > 0){
+		for($a = 0; $a < $cHelper; $a++){
+			$index = HELPER[$a];
+			include("modules/helper/$index.php");
+			$helper->$index = new $index($sdb->builder, $sdb->helper);
+		}
+	}
+
 	// tdata structure;
-	$tdata = $vars->obj();
+	$tdata = $core->obj();
 	$tdata->title = WEB_TITLE;
 	$tdata->root = $root;
 
 	# default setting
-	$tdata->view = $vars->obj();
+	$tdata->view = $core->obj();
 	$tdata->view->contact = true;
 	$tdata->view->footer = true;
 	$tdata->view->header = true;
 	$tdata->view->breadcrumb = false;
 	$tdata->view->hiddenbar = true;
 	$tdata->view->navbar = true;
+	$tdata->view->sidebar = true;
 
-	$tdata->theme = $vars->obj();
+	$tdata->theme = $core->obj();
 	$tdata->theme->path = THEME_PATH;
 	$tdata->theme->list = THEME_LIST_PATH;
 	$tdata->theme->rootURL = ROOT_URL;
+	$tdata->sidebarData = $helper->component->generateSidebar();
 	$template->set($tdata);
 	
 	// route redirection 
-	$route = $vars->obj();
+	$route = $core->obj();
 	$route->root = "$root";
 	$core->set($route);
 
 	#setting up request variable
-	$request = $vars->obj();
+	$request = $core->obj();
 	$request->template = $template;
 
 	#setting up database variables
 	$request->db = $sdb;
 
 	#setting up root on to pass on route files
-	$request->path = $vars->obj();
+	$request->path = $core->obj();
 	$request->path->root = $root;
 
 	#setting up additional requirement
-	$request->require = $vars->obj();
+	$request->require = $core->obj();
 	$request->require->login = 0;
 
 	#input request passing to an object
-	$request->req = $vars->obj();
+	$request->req = $core->obj();
 	$request->req->post = $_POST;
 	$request->req->get = $parsed_input;
 	$request->req->method = $_SERVER['REQUEST_METHOD'];
@@ -89,10 +99,18 @@
 	$request->flag = "";
 	$request->default_pages = "pages";
 
+	$request->specialRole = SPECIAL_ROLE;
+
+	#helper 
+	$request->helper = $core->obj();
+	$request->helper = $helper;
+
 	if(strpos($serverUrl, "?") !== false){
 	    $request->url = strstr($serverUrl, '?', true);
+	    $request->fullurl = strstr($serverUrl, '?', true);
 	} else{
 	    $request->url = $serverUrl;
+	    $request->fullurl = $serverUrl;
 	}
 
 	// Custom routes
