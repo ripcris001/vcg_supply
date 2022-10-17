@@ -13,11 +13,11 @@
 			$core->route($request);
 		break;
 		case '/category':
-			$request->route = "api/category";
+			$request->route = "api/product/category";
 			$core->route($request);
 		break;
 		case '/brand':
-			$request->route = "api/brand";
+			$request->route = "api/product/brand";
 			$core->route($request);
 		break;
 		default:

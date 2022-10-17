@@ -2,7 +2,6 @@
 	$root = getcwd();
 	include("config.php");
 	include("classes/class.core.php");
-	include("classes/class.var.php");
 	include("classes/class.template.php");
 	include("classes/class.connection.php");
 	include("classes/class.query.builder.php");

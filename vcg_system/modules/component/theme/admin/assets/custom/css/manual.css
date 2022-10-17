@@ -1,0 +1,10 @@
+
+.svg-icon-manual:hover, .svg-icon-manual:focus{
+    filter: invert(66%) sepia(91%) saturate(864%) hue-rotate(5deg) brightness(99%) contrast(91%);
+}
+
+.sidebar-default .iq-sidebar-menu .iq-menu>li.active>a svg,
+.iq-sidebar-menu .iq-menu li a .iq-arrow-right.arrow-active{
+    color: black !important;
+}
+
