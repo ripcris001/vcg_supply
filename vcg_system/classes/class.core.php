@@ -71,15 +71,16 @@
 			if(empty($__array_url[1])){
 				include("$this->rootPath/route.php");
 			}else{
-				if(isset(ROUTE_SOURCE["/$__array_url[1]"])){
-					$__parse_url = $this->replace_first_str("/$__array_url[1]", "", $__url);
+				$urlStr = $this->validateSource($__array_url);
+				if(isset(ROUTE_SOURCE[$urlStr])){
+					$__parse_url = $this->replace_first_str("$urlStr", "", $__url);
 					if(isset($__parse_url) && strlen($__parse_url) > 0){
 						$request->url = $__parse_url;
 					}else{
 						$request->url = "/";
 					}
-					$source = ROUTE_SOURCE["/$__array_url[1]"][0];
-					$request_type = ROUTE_SOURCE["/$__array_url[1]"][1];
+					$source = ROUTE_SOURCE["$urlStr"][0];
+					$request_type = ROUTE_SOURCE["$urlStr"][1];
 					if(strtolower($__method) == $request_type || strtolower($request_type) == "all"){
 						include("$this->rootPath/modules/route_config/$source.php");
 					}else{
@@ -93,13 +94,46 @@
 							$core->route($cout);
 						}
 					}
-					
 				}else{
 					include("$this->rootPath/route.php");
 				}
 			}
 		}
 
+		public function validateSource($param){
+			$counter = 0;
+			$count = count($param);
+			$source = ROUTE_SOURCE;
+			$url = "";
+			$url = $this->validateURL($param, 0);
+			return $url;
+		}
+
+		public function generateSource($param, $limit){
+			$url = "";
+			foreach ($param as $key => $value) {
+				if($key){
+					if($key < $limit){
+						$url = $url . "/$value";
+					}
+				}
+			}
+			return $url;
+		}
+		public function validateURL($param, $current){
+			$count = count($param);
+			$url = $this->generateSource($param, ($count - $current));
+			if(isset(ROUTE_SOURCE[$url])){
+				return $url;
+			}else{
+				if($count == $current){
+					return $url;
+				}else{
+					return $this->validateURL($param, ($current + 1));
+				}
+			}
+		}
+		
 		public function redirect($data){
 			header("location: $data");
 		}
@@ -266,6 +300,39 @@
 			$output->uid = isset($name) ? preg_replace('/\s+/', '_', $name) : '';
 			$output->uid = strtolower("sidebar_".$output->uid);
 			return $output;
+		}
+
+		public function logging($data = null, $title = null){
+			$context = "";
+			$output = 'var data = ""; ';
+			if(isset($data)){
+				$datatype = gettype($data);
+				// $output = $output . ' console.log("Datatype", "'.$datatype.'"); ';
+				switch($datatype){
+					case "array":
+						$context = json_encode($data);
+						$output = $output . ' data = `'.$context.'`;'; 
+						$output =  $output . ' data = JSON.parse(`${data}`); ';
+					break;
+					case "object":
+						$context = json_encode($data);
+						$output = $output . ' data = `'.$context.'`;'; 
+						$output =  $output . ' data = JSON.parse(data); ';
+						
+					break;
+					case "integer":
+						$output = $output . ' data = '.$data.';'; 
+					break;
+					case "string":
+						$output = $output . ' data = `'.$data.'`;'; 
+					break;
+					default:
+						$output =  $output . ' data = "'.$data.'"; '; 
+					break;
+				}
+				$output = isset($title) ?  $output . ' console.log("'.$title.'", data); ' :  $output . ' console.log(data); ';
+				echo '<script>'.$output.'</script>';
+			}
 		}
 	}
 ?>

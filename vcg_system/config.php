@@ -2,9 +2,9 @@
 	
 
 	# database configuration
-	Define("DBHOST", "localhost");
-	Define("DBUSER", "root");
-	Define("DBPASS", "");
+	Define("DBHOST", "192.168.1.121");
+	Define("DBUSER", "developer");
+	Define("DBPASS", "admin");
 	Define("DBNAME", "vgc_supply");
 	Define("DBPREFIX", "vgc_");
 
@@ -48,7 +48,8 @@
 	Define("ROUTE_SOURCE", array(
 		"/api" => ["api", "post"],
 		"/pos" => ["pos", "get" ],
-		"/admin" => ["admin", "get" ]
+		"/admin" => ["admin", "get" ],
+		"/admin/product" => ["a_product", "get" ],
 	));
 	Define("HELPER", array("component","universal","brand", "user"));
 	Define("SPECIAL_ROLE", array("developer"));
