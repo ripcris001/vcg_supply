@@ -21,5 +21,15 @@
 			$brand = $this->helper->get($queryString, $filter->all);
 			return $brand;
 		}
+
+		public function addBrand($param = null){
+			$output = $this->output();
+			if(isset($param)){
+				$queryString = $this->builder->insert("brand", $param);
+				$queryString = $queryString->string();
+				$output = $this->helper->add($queryString);
+			}
+			return $output;
+		}
 	}
 ?> 

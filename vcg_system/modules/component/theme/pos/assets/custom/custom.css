@@ -1,0 +1,25 @@
+.capitalize{
+    text-transform: capitalize;
+}
+.uppercase{
+    text-transform: uppercase;
+}
+.lowercase{
+    text-transform: lowercase;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.active-product{
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    border: #ffc107 1px solid;
+    border-radius: 20px;
+}
+
+.currency::before{
+    content: "\20B1";
+}

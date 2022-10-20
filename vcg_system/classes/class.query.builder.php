@@ -141,7 +141,7 @@ class Builder {
 		$this->qlimit = $this->qlimit." offset $param ";
 		return $this;
 	}
-	public function order($param, $ord){
+	public function order($param, $ord = null){
 		$type = gettype($param);
 		if($type == 'string'){
 			$this->qorder = $this->qorder." order by `$param` $ord ";

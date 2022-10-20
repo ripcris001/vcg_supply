@@ -10,7 +10,7 @@ Class category extends core {
 			$filter = new stdClass();
 			$filter->count = false;
 			$filter->all = isset($param->all) ? $param->all : null;
-			$queryString = $this->builder->select("vgc_category");
+			$queryString = $this->builder->select("category");
 			if(isset($param->count)){
 				$filter->count = true;
 			}
@@ -18,8 +18,18 @@ Class category extends core {
 				$queryString = $queryString->where($param->condition);
 			}
 			$queryString = $queryString->string();
-			$brand = $this->helper->get($queryString, $filter->all);
-			return $brand;
+			$output = $this->helper->get($queryString, $filter->all);
+			return $output;
+		}
+
+		public function addCategory($param = null){
+			$output = $this->output();
+			if(isset($param)){
+				$queryString = $this->builder->insert("category", $param);
+				$queryString = $queryString->string();
+				$output = $this->helper->add($queryString);
+			}
+			return $output;
 		}
 	}
 ?> 

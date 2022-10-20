@@ -43,20 +43,26 @@
 			return $this;
 		}
 
-		public function render($data){
+		public function render($data, $sfile = null){
 			if(!isset($_SESSION)){
 				$this->check_session();
 			}
-			
 			$this->theme($data);
 			$this->buildFilePaths($this->structure->contentFilter->isFile);
-
 			$login = $this->get_session('login');
 			$theme = $this->structure;
 			$data = $this->contentdata;
 			$user = isset($_SESSION) ? $this->get_session("login") : $this->obj();
 			$sidebar = $this->structure->sidebarData;
-			include($this->structure->template);
+			if(isset($sfile)){
+				if($this->structure->contentFilter->isFile){
+					include($this->structure->content);
+				}else{
+					include($this->structure->template);
+				}
+			}else{
+				include($this->structure->template);
+			}
 		}
 		
 		// private functions 

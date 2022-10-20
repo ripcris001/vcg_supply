@@ -2,8 +2,8 @@
 	
 
 	# database configuration
-	Define("DBHOST", "192.168.1.121");
-	Define("DBUSER", "developer");
+	Define("DBHOST", "192.168.136.130");
+	Define("DBUSER", "vgc_supply");
 	Define("DBPASS", "admin");
 	Define("DBNAME", "vgc_supply");
 	Define("DBPREFIX", "vgc_");
@@ -38,7 +38,8 @@
 		array(
 			"admin" => "admin", 
 			"frontstore" => "frontstore", 
-			"default" => "default"
+			"default" => "default",
+			"pos" => "pos"
 		)
 	);
 	Define("ROOT_URL", BASEPATH);
@@ -50,7 +51,12 @@
 		"/pos" => ["pos", "get" ],
 		"/admin" => ["admin", "get" ],
 		"/admin/product" => ["a_product", "get" ],
+		"/admin/inventory" => ["inventory", "get" ],
+		"/test" => ["test", "get" ],
 	));
-	Define("HELPER", array("component","universal","brand", "user"));
+	Define("HELPER", array("component","universal","brand", "category", "user", "product", "transaction"));
 	Define("SPECIAL_ROLE", array("developer"));
+	Define("CUSTOMASSEST", "/vcg_system/modules/component/theme/custom/assets");
+	Define("TRANSACTIONCODE", "TRO");
+	Define("TRANSACTIONCOUNT", 10);
 ?>

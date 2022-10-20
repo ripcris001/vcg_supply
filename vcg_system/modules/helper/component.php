@@ -21,6 +21,10 @@
 			$sidebar[2]->subs[0] = $this->sidebar("User List", "/admin/user");
 			$sidebar[2]->subs[1] = $this->sidebar("User Roles", "/admin/user/roles");
 
+			$sidebar[3] = $this->sidebar("Inventory");
+			$sidebar[3]->icon = "user";
+			$sidebar[3]->subs[0] = $this->sidebar("Product Inventory", "/admin/inventory");
+
 			return $sidebar;
 		}
 			

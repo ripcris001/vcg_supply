@@ -92,7 +92,7 @@ class Connection extends mysqli {
                     try {
                         $query = $this->DBase('query', $data);
                         $output->status = true;
-                        $output->data = json_encode($query);
+                        $output->data = $query;
                     } catch(PDOException $e){
                         $output->message = $e->getMessage();
                     }

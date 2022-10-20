@@ -2,9 +2,13 @@
 	$request->require->login = 1;
 	switch($request->url){
 		case '/':
-			$request->template->update("template","template_pos", true);
-			$request->require->login = 1;
 			$request->route = "pages/pos/pos";
+			$request->flag = "pos";
+			$core->route($request);
+		break;
+		case '/print/transaction':
+			$request->route = "pages/pos/pos";
+			$request->flag = "print_transaction";
 			$core->route($request);
 		break;
 	} 
