@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="<?php echo $theme->assetPath; ?>/vendor/%40fortawesome/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="<?php echo $theme->assetPath; ?>/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
     <link rel="stylesheet" href="<?php echo $theme->assetPath; ?>/vendor/remixicon/fonts/remixicon.css">
-    <link rel="stylesheet" href="<?php echo $theme->assetPath; ?>/custom/css/manual.css">
+    <link rel="stylesheet" href="<?php echo CUSTOMASSEST; ?>/custom.css">
     
     <!-- Backend Bundle JavaScript -->
     <script src="<?php echo $theme->assetPath; ?>/js/backend-bundle.min.js"></script>
@@ -56,6 +56,8 @@
     
     <!-- app JavaScript -->
     <script src="<?php echo $theme->assetPath; ?>/js/app.js"></script>
+    <script src="<?php echo CUSTOMASSEST.'/plugin/notify/bootstrap-notify.min.js'; ?>"></script>
+    <script src="<?php echo CUSTOMASSEST.'/plugin/notify/notify-script.js'; ?>"></script>
+    <script src="<?php echo CUSTOMASSEST; ?>/custom.js"></script>
 </body>
-
 </html>

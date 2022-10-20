@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="<?php echo $theme->assetPath.'/css/imagelightbox.min.css'; ?>">
     <link rel="stylesheet" href="<?php echo $theme->assetPath.'/css/style.css'; ?>">
     <link rel="stylesheet" href="<?php echo $theme->assetPath.'/css/responsive.css'; ?>">
+    <link rel="stylesheet" href="<?php echo CUSTOMASSEST.'/custom.css'; ?>">
     <title><?php  echo WEB_TITLE; ?></title>
     <link rel="icon" type="image/png" href="<?php echo $theme->assetPath.'/img/favicon.png'; ?>">
      <script src="<?php echo $theme->assetPath.'/js/jquery.min.js'; ?>"></script>
@@ -70,8 +71,8 @@
     <script src="<?php echo $theme->assetPath.'/js/contact-form-script.js'; ?>"></script>
     <script src="<?php echo $theme->assetPath.'/js/wow.min.js'; ?>"></script>
     <script src="<?php echo $theme->assetPath.'/js/main.js'; ?>"></script>
-    <script src="<?php echo $theme->assetPath.'/plugin/notify/js/bootstrap-notify.min.js'; ?>"></script>
-    <script src="<?php echo $theme->assetPath.'/plugin/notify/js/notify-script.js'; ?>"></script>
+    <script src="<?php echo CUSTOMASSEST.'/plugin/notify/bootstrap-notify.min.js'; ?>"></script>
+    <script src="<?php echo CUSTOMASSEST.'/plugin/notify/notify-script.js'; ?>"></script>
     <script src="<?php echo $theme->assetPath.'/custom/helper.js'; ?>"></script>
 </body>
 

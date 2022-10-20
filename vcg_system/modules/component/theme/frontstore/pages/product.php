@@ -82,20 +82,24 @@
             },
             getbrand: function(){
                 const __self = this; 
-                $.post( "/api/brand", function( brand ) { 
-                    brand = JSON.parse(brand);
-                    // console.log(brand);
-                    __self.generateBrandContainer(brand.data);
+                utils.request.set({data: [], url: "/api/brand"}).send(function(res) {
+                    let outputData = [];  
+                    if(res.status){
+                        outputData = res.data
+                    }
+                    __self.generateBrandContainer(outputData);
                 });
             },
             getcategory: function(data = null){
                 const __self = this; 
                 const input = {}
-                $.post( "/api/category", function( cat ) { 
-                    cat = JSON.parse(cat);
-                    // console.log(cat);
-                    __self.generateCategoryContainer(cat.data);
-                });
+                utils.request.set({data: [], url: "/api/category"}).send(function(res) {
+                    let outputData = [];  
+                    if(res.status){
+                        outputData = res.data
+                    }
+                    __self.generateCategoryContainer(outputData);
+                })
             },
             setData: function(data){
                 // console.log(data);
@@ -103,12 +107,15 @@
                 return this;
             },
             getproduct: function(data = {}){
+                console.log(data);
                 const __self = this; 
-                $.post( "/api/product", Object.keys(data).length > 0 ? data : {}, function( res ) { 
-                    res = JSON.parse(res);
-                    // console.log(res);
-                    __self.generateProductContainer(res.data);
-                });
+                utils.request.set({data: Object.keys(data).length > 0 ? data : {}, url: "/api/product"}).send(function(res) {
+                    let outputData = [];  
+                    if(res.status){
+                        outputData = res.data
+                    }
+                    __self.generateProductContainer(outputData);
+                })
             },
             generateBrandContainer: function(param = []){
                 const __self = this;
@@ -137,7 +144,7 @@
                     const local = data[a];
                     // console.log(local);
                     html += `
-                        <li><a class="cat1 product-category" data-id="${local.cat_id}">${local.cat_name}</a></li>
+                        <li><a class="cat1 product-category capitalize" data-id="${local.cat_id}">${local.cat_name}</a></li>
                     `;
                     if(a == (count -1)){
                         __self.target.category.html(html);
@@ -152,7 +159,12 @@
                     const count = data.length;
                     for(let a = 0; a < count; a++){
                         const local = data[a];
-                        tempHtml = "";
+                        const remaining_qty = local.remaining_stock;
+                        tempHtml = `
+                                <li>Category: <span class="capitalize">${local.category}</span></li>
+                                <li>Brand: <span class="capitalize">${local.brand}</span></li>
+                                <li>Remaining Qty.: <span class="capitalize">${remaining_qty > 0 ? remaining_qty : "Sold out" }</span></li>
+                            `;
                         local.product_description = JSON.parse(local.product_description);
                         if(Object.keys(local.product_description).length){
                             const lOData = Object.keys(local.product_description);
@@ -160,7 +172,7 @@
                             for(let b =0; b < lCount; b++){
                                 const index = lOData[b];
                                 const value = local.product_description[index];
-                                tempHtml += `<li>${index}: ${value}</li>`;
+                                tempHtml += `<li><span class="capitalize">${index}</span>: ${value}</li>`;
                             }
                         }
                         html += `
@@ -169,14 +181,14 @@
                                 <div class="col-lg-3 col-sm-3">
                                     <div class="shop-image">
                                         <a href="#">
-                                            <img src="<?php echo $theme->assetPath; ?>${local.product_image}" alt="image">
+                                            <img src="<?php echo $theme->assetPath; ?>${local.product_image ? local.product_image : "/img/shop/blank.png"}" alt="image">
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="shop-content">
                                         <h3>
-                                            <a href="#">${local.product_name}</a>
+                                            <a href="#" class="uppercase">${local.product_name}</a>
                                         </h3>
                                         <div class="rating">
                                             <i class='bx bxs-star'></i>
@@ -197,13 +209,13 @@
                                             <span><span class="denomitaion">₱</span>${local.product_price}</span>
                                         </li>
                                         <li>
-                                            <a href="cart.html">Add To Cart</a>
+                                            <a class="${remaining_qty ? "" : "disabled"}">Add To Cart</a>
                                         </li>
                                         <li>
-                                            <a href="wishlist.html">Add To Wishlist</a>
+                                            <a class="${remaining_qty ? "" : "disabled"}">Add To Wishlist</a>
                                         </li>
                                         <li>
-                                            <a href="compare.html">Add To Compare</a>
+                                            <a class="${remaining_qty ? "" : "disabled"}">Add To Compare</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -233,9 +245,6 @@
                         window.location.href = Url;
 
                     }
-                    console.log(id)
-
-
                 })
             }
         }

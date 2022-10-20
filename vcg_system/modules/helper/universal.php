@@ -30,5 +30,38 @@
 				return $ouput;
 			}
 		}
+		public function parsePost($param = null){
+			$output = array();
+			if(isset($param)){
+				$data = json_decode($param);
+				foreach ($data as $key => $value) {
+					$output[$key] =  $value;
+				}
+			}
+			return $output;
+		}
+		public function clean($param = null, $data){
+			$output = new stdClass();
+			if(isset($param)){
+				foreach ($param as $key => $value) {
+					if(array_search($key, $data) < -1){
+						$output->$key =  $value;
+					}
+				}
+			}
+			return $output;
+		}
+		public function transactionCode($param = 0){
+			$code = TRANSACTIONCODE;
+			$count = TRANSACTIONCOUNT;
+			return strtoupper($code).sprintf("%0".$count."d", $param);
+		}
+		public function parseTransCode($param = 0){
+			$data = $param;
+			$parse = str_replace(TRANSACTIONCODE, "", $data);
+			$parse = (int)$parse;
+			return $parse;
+		}
+
 	}
 ?> 
