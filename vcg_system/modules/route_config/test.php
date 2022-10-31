@@ -14,6 +14,12 @@
 			$parse = (int)$parse;
 			echo "$parse";
 		break;
+		case '/test':
+			$data = "TRO0000000010";
+			$parse = str_replace(TRANSACTIONCODE, "", $data);
+			$parse = (int)$parse;
+			echo "$parse";
+		break;
 		default:
 			$request->template->content("error/404", true)->render("frontstore");
 		break;

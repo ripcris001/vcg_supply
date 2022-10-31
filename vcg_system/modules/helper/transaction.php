@@ -26,6 +26,7 @@
 			$queryString = $queryString->string();
 			$transaction = $this->helper->get($queryString, $filter->all);
 			$transaction->source = "transaction get";
+			// $transaction->queryString = $queryString;
 			return $transaction;
 		}
 

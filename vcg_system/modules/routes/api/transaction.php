@@ -19,15 +19,14 @@
 						}
 					}
 				}
-				$brand = $helper->brand->getbrand($input);
+				$brand = $helper->transaction->getTransaction($input);
 				$core->response($brand);
 			break;
 			case "add":
 				$output = $core->output();
 				$post = $helper->universal->parsePost($req->post["value"]);
 				$input = $core->obj();
-				$input->order = $core->obj();
-				$input->order->id = "DESC";
+				$input->order = ['transaction_id', 'DESC'];
 				$input->limit = 1;
 				$checkTransaction = $helper->transaction->getTransaction($input);
 				if($checkTransaction->status){
@@ -36,6 +35,9 @@
 				}else{
 					$post["transaction_id"] = $helper->universal->transactionCode(1);
 				}
+				$post["assign_cashier"] = $core->get_session("login");
+				$post["assign_cashier"] = $post["assign_cashier"]->ID;
+				
 				$addTransaction = $helper->transaction->addTransaction($post);
 				if($addTransaction->status){
 					$output->message = "Successfully added new transaction";

@@ -77,6 +77,7 @@
 	#setting up request variable
 	$request = $core->obj();
 	$request->template = $template;
+	$request->root = "$root";
 
 	#setting up database variables
 	$request->db = $sdb;

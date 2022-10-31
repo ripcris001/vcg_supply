@@ -11,14 +11,14 @@
 				$input->trid = $trid;
 				if(isset($trid)){
 					$query = $core->obj();
-					$query->conditon = [["transaction_id", '=', $trid]];
+					$query->condition = [["transaction_id", '=', $trid]];
 					$getTransaction = $helper->transaction->getTransaction($query);
 					if($getTransaction->status){
 						$input->title = $getTransaction->data->transaction_id;
-						$input->data = $getTransaction->data;
+						$input->transaction = json_encode($getTransaction->data);
 					}
 				}
-				$template->data($input)->content("print_transaction", true)->render("pos", true);
+				$template->data($input)->content("main", true)->render("invoice");
 			break;
 		}
 	}

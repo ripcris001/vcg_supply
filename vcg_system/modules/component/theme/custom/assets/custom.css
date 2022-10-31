@@ -47,6 +47,11 @@
   border-bottom: 1px solid var(--artical-color-border);
 }
 
+.header-logo img{
+  width: 100%;
+  height: auto;
+}
+
 
 
 

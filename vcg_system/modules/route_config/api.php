@@ -8,7 +8,6 @@
 			$request->route = "api/users";
 			$core->route($request);
 		break;
-
 		//product api
 		case '/product':
 			$request->route = "api/product/product";
@@ -53,9 +52,38 @@
 		break;
 
 		// transaction api
+		case '/transaction':
+			$request->route = "api/transaction";
+			$request->flag = "get";
+			$core->route($request);
+		break;
 		case '/transaction/add':
 			$request->route = "api/transaction";
 			$request->flag = "add";
+			$core->route($request);
+		break;
+
+		case '/address':
+			$cdata = $core->obj();
+			$cdata->status = true;
+			$cdata->data = file_get_contents("$request->root/modules/component/theme/custom/address.json");
+			$cdata->data = json_decode($cdata->data);
+			$core->response($cdata);
+		break;
+
+		case '/customer':
+			$request->route = "api/customer";
+			$request->flag = "get";
+			$core->route($request);
+		break;
+		case '/customer/add':
+			$request->route = "api/customer";
+			$request->flag = "add";
+			$core->route($request);
+		break;
+		case '/customer/shipping/add':
+			$request->route = "api/customer";
+			$request->flag = "addshipping";
 			$core->route($request);
 		break;
 
