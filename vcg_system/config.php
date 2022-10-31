@@ -2,9 +2,9 @@
 	
 
 	# database configuration
-	Define("DBHOST", "192.168.136.130");
-	Define("DBUSER", "vgc_supply");
-	Define("DBPASS", "admin");
+	Define("DBHOST", "localhost");
+	Define("DBUSER", "root");
+	Define("DBPASS", "");
 	Define("DBNAME", "vgc_supply");
 	Define("DBPREFIX", "vgc_");
 
@@ -23,6 +23,7 @@
 	Define("INFO_TELE_CONTACT_NUMBER", '2135977');
 	Define("INFO_CONTACT_NUMBER", '213-5977');
 	Define("INFO_PHONE_NUMBER", '0998-52622988');
+	Define("INFO_WEBSITE", 'www.vcgtiresupply.ph');
 
 	Define("INFO_LOGO_1", ASSETPATH.'/img/logo/1.png');
 	Define("INFO_LOGO_2", ASSETPATH.'/img/logo/1.png');
@@ -39,7 +40,8 @@
 			"admin" => "admin", 
 			"frontstore" => "frontstore", 
 			"default" => "default",
-			"pos" => "pos"
+			"pos" => "pos",
+			"invoice" => "invoice"
 		)
 	);
 	Define("ROOT_URL", BASEPATH);
@@ -52,9 +54,10 @@
 		"/admin" => ["admin", "get" ],
 		"/admin/product" => ["a_product", "get" ],
 		"/admin/inventory" => ["inventory", "get" ],
+		"/admin/transaction" => ["transaction", "get" ],
 		"/test" => ["test", "get" ],
 	));
-	Define("HELPER", array("component","universal","brand", "category", "user", "product", "transaction"));
+	Define("HELPER", array("component","universal","brand", "category", "user", "product", "transaction", "customer"));
 	Define("SPECIAL_ROLE", array("developer"));
 	Define("CUSTOMASSEST", "/vcg_system/modules/component/theme/custom/assets");
 	Define("TRANSACTIONCODE", "TRO");

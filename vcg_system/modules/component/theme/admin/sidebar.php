@@ -1,5 +1,5 @@
 <div class="iq-sidebar  sidebar-default ">
-    <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
+    <div class="iq-sidebar-logo main-logo">
         <a href="#" class="header-logo">
             <img src="<?php echo INFO_LOGO_2; ?>" class="img-fluid light-logo"
                 alt="logo">

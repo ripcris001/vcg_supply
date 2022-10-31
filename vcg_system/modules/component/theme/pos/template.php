@@ -2,15 +2,13 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>Admin | Dashboard</title>
+	<title>POS | <?php echo isset($data->title) ? $data->title : WEB_TITLE; ?></title>
+    
 	<meta name="description" content="Updates and statistics" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<!--begin::Fonts-->
-	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" /> -->
-	<!--end::Fonts-->
-	<!--begin::Global Theme Styles(used by all pages)-->
+	<!-- Favicon -->
+    <link rel="shortcut icon" href="<?php echo FAVICON; ?>" />
 	<link href="<?php echo $theme->assetPath; ?>/css/stylec619.css?v=1.0" rel="stylesheet" type="text/css" />
-	<!--end::Global Theme Styles-->
 	<link href="<?php echo $theme->assetPath; ?>/api/pace/pace-theme-flat-top.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo $theme->assetPath; ?>/api/mcustomscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo $theme->assetPath; ?>/api/dt-v2/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
