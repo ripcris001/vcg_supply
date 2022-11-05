@@ -8,7 +8,7 @@
 }
 
 .form-error{
-    border-color: red;
+  border: red solid 1px !important;
 }
 
 
@@ -52,10 +52,25 @@
   height: auto;
 }
 
+.sold_out{
+  color:  red;
+  cursor: default;
+}
 
+.sold_out .productThumb img{
+  opacity: 0.5;
+}
 
-
-
+.sold_out .productThumb::after {
+  content: "sold out";
+  position: absolute;
+  top: 1.5em;
+  white-space: pre;
+  left: 20%;
+  font-weight: bold;
+  text-align: right;
+  font-size: 20px;
+}
 
 
 

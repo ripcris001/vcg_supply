@@ -172,7 +172,11 @@ class Builder {
 				if(!$this->counter->set){
 					$this->qupdateset = $this->qupdateset." SET `$key` = '$value' ";
 				}else{
-					$this->qupdateset = $this->qupdateset.", SET `$key` = '$value' ";
+					if($this->counter->set >= 1){
+						$this->qupdateset = $this->qupdateset.", `$key` = '$value' ";
+					}else{
+						$this->qupdateset = $this->qupdateset.", SET `$key` = '$value' ";
+					}
 				}
 				$this->counter->set += 1;
 			}

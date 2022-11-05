@@ -10,13 +10,21 @@ Class customer extends core {
 			$filter = new stdClass();
 			$filter->count = false;
 			$filter->all = isset($param->all) ? $param->all : null;
-			$queryString = $this->builder->select("customer");
+			if(isset($param->select)){
+				$queryString = $this->builder->select($param->select, "customer");
+			}else{
+				$queryString = $this->builder->select("customer");
+			}
 			if(isset($param->count)){
-				$filter->count = true;
+				$queryString = $queryString->count($param->count);
+			}
+			if(isset($param->sum)){
+				$queryString = $queryString->sum($param->sum);
 			}
 			if(isset($param->condition)){
 				$queryString = $queryString->where($param->condition);
 			}
+			
 			$queryString = $queryString->string();
 			$output = $this->helper->get($queryString, $filter->all);
 			return $output;
@@ -45,9 +53,13 @@ Class customer extends core {
 			$filter = new stdClass();
 			$filter->count = false;
 			$filter->all = isset($param->all) ? $param->all : null;
-			$queryString = $this->builder->select("customer_shipping_address");
+			if(isset($param->select)){
+				$queryString = $this->builder->select($param->select, "customer_shipping_address");
+			}else{
+				$queryString = $this->builder->select("customer_shipping_address");
+			}
 			if(isset($param->count)){
-				$filter->count = true;
+				$queryString = $queryString->count($param->count);
 			}
 			if(isset($param->condition)){
 				$queryString = $queryString->where($param->condition);

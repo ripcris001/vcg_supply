@@ -19,7 +19,10 @@
 					$queryString = $queryString->where($param->condition);
 				}
 				if(isset($param->count)){
-					$filter->count = true;
+					$queryString = $queryString->count($param->count);
+				}
+				if(isset($param->sum)){
+					$queryString = $queryString->sum($param->sum);
 				}
 				$queryString = $queryString->string();
 				$queryResult = $this->helper->get($queryString, $filter->all);
@@ -35,7 +38,19 @@
 			if(isset($param)){
 				$data = json_decode($param);
 				foreach ($data as $key => $value) {
-					$output[$key] =  $value;
+					if(gettype($value) == 'array'){
+						$output[$key] = array();
+						foreach ($value as $key1 => $value1) {
+							$output[$key][$key1] = $value1;
+						}
+					}else if(gettype($value) == 'object'){
+						$output[$key] = array();
+						foreach ($value as $key1 => $value1) {
+							$output[$key][$key1] = $value1;
+						}
+					}else{
+						$output[$key] =  $value;
+					}
 				}
 			}
 			return $output;
@@ -61,6 +76,57 @@
 			$parse = str_replace(TRANSACTIONCODE, "", $data);
 			$parse = (int)$parse;
 			return $parse;
+		}
+
+		public function currentDate(){
+			$output = date_create();
+			$output = date_format($output,"Y-m-d");
+			return $output;
+		}
+
+		public function formatDate($param){
+			$output = date_create(isset($param->date) ? $param->date : "");
+			$output = strtotime(date_format($output, 'Y-m-d'));
+			$output = date(isset($param->format) ? $param->format : 'Y-m-d', $output);
+			return $output;
+		}
+
+		public function getDateRange($param){
+			$output = new stdClass();
+			$output->date =  date_create(isset($param->date) ? $param->date : "");
+			$output->start = date_create(isset($param->start) ? $param->date : "");
+			$output->end = date_create(isset($param->end) ? $param->date : "");
+			$output->type = isset($param->type) ? $param->type : null;
+			if(isset($param->type)){
+				switch(strtolower($param->type)){
+					case "month":
+						$output->start = strtotime(date_format($output->date, 'Y-m-01'));
+						$output->start = date('Y-m-01', $output->start);
+						$output->end = strtotime(date_format($output->date, 'Y-m-t'));
+						$output->end = date('Y-m-t', $output->end);
+					break;
+					case "year":
+						$output->start = strtotime(date_format($output->date, 'Y-01-01'));
+						$output->start = date('Y-m-01', $output->start);
+						$output->end = strtotime(date_format($output->date, 'Y-12-01'));
+						$output->end = date('Y-m-t', $output->end);
+					break;
+					
+				}
+			}
+			$output->date = strtotime(date_format($output->date, 'Y-m-d'));
+			$output->date = date('Y-m-d', $output->date);
+
+			// if(isset($param->format)){
+			// 	$output->date = date_format($output->date, $param->format);
+			// 	$output->start = date_format($output->start, $param->format);
+			// 	$output->end = date_format($output->end, $param->format);
+			// }else{
+			// 	$output->date = date_format($output->date, 'Y-m-d');
+			// 	$output->start = date_format($output->start, 'Y-m-d');
+			// 	$output->end = date_format($output->end, 'Y-m-d');
+			// }
+			return $output;
 		}
 
 	}

@@ -72,10 +72,10 @@
 											</svg>
 										</span>
 									</label>
-									<select class="arabic-select select-down">
+									<!-- <select class="arabic-select select-down">
 										<option value="1">Men's</option>
 										<option value="2">Accessories</option>
-									</select>
+									</select> -->
 								</div>
 							</div>
 						</div>	
@@ -107,16 +107,16 @@
 						<div class="card-body" >
 							<div class="form-group row mb-0">
 								<div class="col-md-12 btn-submit d-flex justify-content-end">
-									<button type="submit" class="btn btn-danger mr-2 confirm-delete" title="Delete">
+									<button type="submit" class="btn btn-danger mr-2 cancel-transaction" title="Delete">
 										<i class="fas fa-trash-alt mr-2"></i>
 										Suspand/Cancel
 									</button>
-									<button type="submit" class="btn btn-secondary white">
+									<!-- <button type="submit" class="btn btn-secondary white">
 										<svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-folder-fill svg-sm mr-2" viewBox="0 0 16 16">
 											<path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
 										</svg>
 										Draft Order
-									</button>
+									</button> -->
 								</div>
 							</div>	
 						</div>
@@ -1128,8 +1128,8 @@
 							const loopdata = param.data[a];
 							const assetPath = '/vcg_system/modules/component/theme/frontstore/assets'
 							html += `
-								<div class="product-container col-xl-4 col-lg-2 col-md-3 col-sm-4 col-6">
-									<div class="capitalize product-data cursor-pointer" data-id="${loopdata.product_id}">
+								<div class="product-container col-xl-4 col-lg-2 col-md-3 col-sm-4 col-6 ">
+									<div class="capitalize product-data cursor-pointer ${loopdata.remaining_stock > 0 ? "" : 'sold_out'}" data-id="${loopdata.product_id}">
 										<div class="productCard">
 											<div class="productThumb">
 												<img class="img-fluid" src="${assetPath}/${loopdata.product_image ? loopdata.product_image : 'img/shop/blank.png'}" alt="ix">
@@ -1137,6 +1137,7 @@
 											<div class="productContent">
 												<span>${loopdata.product_name}<span><br>
 												<span class="capitalize">${loopdata.brand} / ${loopdata.category}</span>
+												<span class="capitalize">Remaining Qty. : ${loopdata.remaining_stock > 0 ? loopdata.remaining_stock : 'Sold Out'}</span>
 											</div>
 										</div>
 									</div>
@@ -1166,14 +1167,20 @@
 				jQuery('.product-items').on('dblclick', '.product-data', function(){
 					const local = jQuery(this);
 					const id = local.data('id');
-					const findID = utils.findObjectIndex(s.data.product, "product_id", id);
-					if(findID > -1){
-						transaction.addSelectedProduct(s.data.product[findID]);
+					if(!local.hasClass('sold_out')){
+						const findID = utils.findObjectIndex(s.data.product, "product_id", id);
+						if(findID > -1){
+							transaction.addSelectedProduct(s.data.product[findID]);
+						}
 					}
 				})
 				jQuery('.product-items').on('click', '.product-data',function(){
-					jQuery('.product-items').find('.active-product').removeClass('active-product');
-					jQuery(this).closest('.product-container').addClass('active-product');
+					const local = jQuery(this);
+					if(!local.hasClass('sold_out')){
+						jQuery('.product-items').find('.active-product').removeClass('active-product');
+						jQuery(this).closest('.product-container').addClass('active-product');
+					}
+					
 				})
 				jQuery('.form-product-search').on('submit', function(e){
 					e.preventDefault();
@@ -1463,9 +1470,10 @@
             		const local = jQuery(this);
                     const tdata = s.datatable.main.row(jQuery(this.closest("tr"))).data();
                     let value = local.val();
-                    	value = value ? parseInt(value) : "";
+                    	value = value ? parseInt(value) : 0;
                     let subtotal = 0;
                     if(tdata.id){
+                    	console.log(s.data);
                     	const product_id = utils.findObjectIndex(s.data.transaction.selectedProduct, "product_id", tdata.id);
                     	if(product_id > -1){
                     		const product_details = s.data.transaction.selectedProduct[product_id];
@@ -1553,40 +1561,86 @@
                 				utils.notify.setTitle("Warning").setMessage("Shipping address not set!").setType("warning").load();
                 			}else{
                 				if(transaction.selectedProduct.length){
-                					transaction.transaction_type = transaction.customer.status;
-	                				transaction.customer = JSON.stringify(transaction.customer);
-		                			transaction.payment = JSON.stringify(transaction.payment);
-		                			transaction.shipping = JSON.stringify(transaction.shipping);
-	                				for(let a = 0, count = transaction.selectedProduct.length; a < count; a++){
-	                					const infoList = ['brand', 'category', 'product_name', 'product_price']
-	                					transaction.selectedProduct[a] = {
-	                						product_id: transaction.selectedProduct[a].product_id,
-	                						transaction: transaction.selectedProduct[a].transaction,
-	                						info: {
-	                							brand: transaction.selectedProduct[a].brand ? transaction.selectedProduct[a].brand : '',
-	                							category: transaction.selectedProduct[a].category ? transaction.selectedProduct[a].category : '',
-	                							product_name: transaction.selectedProduct[a].product_name ? transaction.selectedProduct[a].product_name : '',
-	                							product_price: transaction.selectedProduct[a].product_price ? transaction.selectedProduct[a].product_price : ''
-	                						}
-	                					}
-	                					
-	                					if(a == (count - 1)){
-	                						transaction.selectedProduct = JSON.stringify(transaction.selectedProduct);
-	                						utils.request.set({data: transaction, url: '/api/transaction/add'}).send(function(res){
-				                				if(res.status){
-				                					s.resetTransaction();
-				                					main.reloadProductList();
-				                					utils.notify.setTitle("Success").setMessage(res.message).setType("success").load();
-				                					s.print(`/pos/print/transaction?transaction_id=${res.transaction_id}`)
-				                				}else{
-				                					transaction.customer = JSON.parse(transaction.customer);
-				                					transaction.payment = JSON.parse(transaction.payment);
-				                					transaction.selectedProduct = JSON.parse(transaction.selectedProduct);
-				                					utils.notify.setTitle("Error").setMessage(res.message).setType("danger").load();
-				                				}
-				                			})
-	                					}
-	                				}
+	            					Swal.fire({ 
+	        							title: "Complete Transaction?", 
+				                        text: "are you sure you want to complete the transaction?", 
+				                        type: "warning", showCancelButton: !0, 
+				                        confirmButtonColor: "#3085d6", 
+				                        cancelButtonColor: "#d33", 
+				                        confirmButtonText: "Continue!", 
+				                        confirmButtonClass: "btn btn-primary", 
+				                        cancelButtonClass: "btn btn-danger ml-1", 
+				                        buttonsStyling: !1 ,
+				                        closeOnConfirm: false
+	        						}).then(function(sw){
+	        							if(sw.value){
+		                					transaction.transaction_type = transaction.customer.status;
+			                				for(let a = 0, count = transaction.selectedProduct.length; a < count; a++){
+			                					const infoList = ['brand', 'category', 'product_name', 'product_price']
+			                					const productID = utils.findObjectIndex(main.data.product, 'product_id', transaction.selectedProduct[a].product_id);
+			                					const productData = main.data.product[productID];
+			                					transaction.selectedProduct[a] = {
+			                						product_id: productData.product_id,
+			                						transaction: productData.transaction,
+			                						info: {
+			                							brand: productData.brand ? productData.brand : '',
+			                							category: productData.category ? productData.category : '',
+			                							product_name: productData.product_name ? productData.product_name : '',
+			                							product_price: productData.product_price ? productData.product_price : ''
+			                						}
+			                					}
+			                					if(a == (count - 1)){
+			                						
+		                								swal({
+														    title: "Loading...",
+														    text: "Please wait",
+														    imageUrl: '<?php echo CUSTOMASSEST; ?>/img/loader.gif',
+														    button: false,
+														    showConfirmButton: false,
+														    allowOutsideClick: false,
+														    closeOnEsc: false
+														});
+		                								transaction.customer = JSON.stringify(transaction.customer);
+							                			transaction.payment = JSON.stringify(transaction.payment);
+							                			transaction.shipping = JSON.stringify(transaction.shipping);
+							                			transaction.selectedProduct = JSON.stringify(transaction.selectedProduct);
+		                								utils.request.set({data: transaction, url: '/api/transaction/add'}).send(function(res){
+							                				if(res.status){
+			                									swal({
+																    title: "Success",
+																    text: `${res.message}`,
+																    type: "success",
+																    button: false,
+																    closeOnEsc: false,
+																    confirmButtonText: "Print Receipt", 
+																 }).then(function(){
+																 	s.resetTransaction();
+							                						main.reloadProductList();
+																 	s.print(`/pos/print/transaction?transaction_id=${res.transaction_id}`)
+																 })
+							                				}else{
+							                					swal({
+																    title: "Failed",
+																    text: `${res.message}`,
+																    type: "error",
+																    button: false,
+																    closeOnEsc: false,
+																    confirmButtonText: "Continue?", 
+																})
+							                				}
+							                			})
+		                							
+			                					}
+			                				}
+			                			}else{
+	        								Swal.fire({ 
+				                    			title: "Cancelled", 
+				                    			text: "", 
+				                    			type: "error", 
+				                    			confirmButtonClass: "btn btn-success" 
+				                    		})
+	        							}
+		                			})
 	                			}else{
 	                				utils.notify.setTitle("Warning").setMessage("Please add product first!").setType("warning").load();
 	                			}
@@ -1712,6 +1766,37 @@
                 		}
                 	})
                 })
+                jQuery('.cancel-transaction').on('click', function(){
+                	Swal.fire({ 
+                        title: "Are you sure?", 
+                        text: "You won't be able to revert this!", 
+                        type: "warning", showCancelButton: !0, 
+                        confirmButtonColor: "#3085d6", 
+                        cancelButtonColor: "#d33", 
+                        confirmButtonText: "Yes, Cancel it!", 
+                        confirmButtonClass: "btn btn-primary", 
+                        cancelButtonClass: "btn btn-danger ml-1", 
+                        buttonsStyling: !1 
+                    }).then(function(t){
+                    	if(t.value){
+                    		s.resetTransaction();
+				            main.reloadProductList();
+                    		Swal.fire({
+                            	type: "success", 
+                            	title: "Transaction Cancelled!", 
+                            	text: "Current transaction has been deleted.", 
+                            	confirmButtonClass: "btn btn-success" 
+                            })
+                    	}else{
+                    		Swal.fire({ 
+                    			title: "Cancelled", 
+                    			text: "", 
+                    			type: "error", 
+                    			confirmButtonClass: "btn btn-success" 
+                    		})
+                    	}
+                    })
+                })
             },
             generateTotal: function(){
             	const __self = this;
@@ -1719,6 +1804,9 @@
             	const selectedProduct = transaction.selectedProduct;
             	const payment = transaction.payment;
             	const currencyValue = __self.data.currencyData;
+
+            	console.log("generateTotal", transaction);
+
             	transaction.sub_total = 0;
             	transaction.cash_payment = 0;
             	transaction.card_payment = 0;

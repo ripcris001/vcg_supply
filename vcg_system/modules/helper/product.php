@@ -10,9 +10,16 @@ Class product extends core {
 			$filter = new stdClass();
 			$filter->count = false;
 			$filter->all = isset($param->all) ? $param->all : null;
-			$queryString = $this->builder->select("product");
+			if(isset($param->select)){
+				$queryString = $this->builder->select($param->select, "product");
+			}else{
+				$queryString = $this->builder->select("product");
+			}
 			if(isset($param->count)){
-				$filter->count = true;
+				$queryString = $queryString->count($param->count);
+			}
+			if(isset($param->sum)){
+				$queryString = $queryString->sum($param->sum);
 			}
 			if(isset($param->condition)){
 				$queryString = $queryString->where($param->condition);
@@ -63,9 +70,17 @@ Class product extends core {
 			$filter = new stdClass();
 			$filter->count = false;
 			$filter->all = isset($param->all) ? $param->all : null;
-			$queryString = $this->builder->select("product_stock");
+			
+			if(isset($param->select)){
+				$queryString = $this->builder->select($param->select, "product_stock");
+			}else{
+				$queryString = $this->builder->select("product_stock");
+			}
 			if(isset($param->count)){
-				$filter->count = true;
+				$queryString = $queryString->count($param->count);
+			}
+			if(isset($param->sum)){
+				$queryString = $queryString->sum($param->sum);
 			}
 			if(isset($param->condition)){
 				$queryString = $queryString->where($param->condition);
@@ -76,6 +91,7 @@ Class product extends core {
 			if(isset($param->limit)){
 				$queryString = $queryString->limit($param->limit);
 			}
+			
 			$queryString = $queryString->string();
 			$output = $this->helper->get($queryString, $filter->all);
 			return $output;
@@ -97,7 +113,8 @@ Class product extends core {
 			return $output;
 		}
 
-		public function updateProductDeductStock($param){
+		public function updateProductDeductStock($param, $param2 = null){
+			$objectve = isset($param2) ? "$param2" : "sold_quantity";
 			$input = $this->obj();
 			$input->condition = $param->condition;
 			$output = $this->obj();
@@ -105,9 +122,9 @@ Class product extends core {
 			if($getStock->status){
 				$stockData = $getStock->data;
 				$updateStock = $this->obj();
-				$new_sold_qty = $stockData->sold_quantity + $param->quantity;
+				$new_sold_qty = $stockData->$objectve + $param->quantity;
 				$input->set = array();
-				$input->set["sold_quantity"] = $new_sold_qty;
+				$input->set[$objectve] = $new_sold_qty;
 				$update = $this->updateStock($input);
 				if($update->status){
 					$output = $update;
@@ -115,8 +132,6 @@ Class product extends core {
 			}
 			return $output;
 		}
-
-
 
 		public function updateProductTransactionStock($param){
 			$output = $this->output();
@@ -130,6 +145,64 @@ Class product extends core {
 				$update = $this->updateProductDeductStock($input);
 				$parray[$a] = $update;
 				$parray[$a] = $param[$a]->transaction->quantity;
+				if($a == ($count - 1)){
+					$output->status = true;
+					$output->data = $parray;
+					return $output;
+				}
+			}
+		}
+
+		public function getProductInventory($param = null){
+			$filter = new stdClass();
+			$filter->count = false;
+			$filter->all = isset($param->all) ? $param->all : null;
+			if(isset($param->select)){
+				$queryString = $this->builder->select($param->select, "product_inventory");
+			}else{
+				$queryString = $this->builder->select("product_inventory");
+			}
+			if(isset($param->count)){
+				$queryString = $queryString->count($param->count);
+			}
+			if(isset($param->sum)){
+				$queryString = $queryString->sum($param->sum);
+			}
+			if(isset($param->condition)){
+				$queryString = $queryString->where($param->condition);
+			}
+			if(isset($param->order)){
+				$queryString = $queryString->order($param->order);
+			}
+			if(isset($param->limit)){
+				$queryString = $queryString->limit($param->limit);
+			}
+			$queryString = $queryString->string();
+			$output = $this->helper->get($queryString, $filter->all);
+			return $output;
+		}
+
+		public function addEnventoryProduct($param = null){
+			$output = $this->output();
+			if(isset($param)){
+				$queryString = $this->builder->insert("product_inventory", $param);
+				$queryString = $queryString->string();
+				$output = $this->helper->add($queryString);
+			}
+			return $output;
+		}
+
+		public function updateProductInventoryStock($param){
+			$output = $this->output();
+			$count = count($param);
+			$parray = array();
+			for($a = 0, $count = count($param); $a < $count; $a++){
+				$input = $this->obj();
+				$input->quantity = $param[$a]->quantity;
+				$input->product_id = $param[$a]->product_id;
+				$input->condition = [["product_id", "=", $param[$a]->product_id]];
+				$update = $this->updateProductDeductStock($input, "current_quantity");
+				$parray[$a] = $update;
 				if($a == ($count - 1)){
 					$output->status = true;
 					$output->data = $parray;

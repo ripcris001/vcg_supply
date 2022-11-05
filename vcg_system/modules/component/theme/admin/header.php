@@ -55,7 +55,7 @@
                                         <div class="cust-title p-3">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <h5 class="mb-0">All Messages</h5>
-                                                <a class="badge badge-primary badge-card" href="#">0</a>
+                                                <!-- <a class="badge badge-primary badge-card" href="#">0</a> -->
                                             </div>
                                         </div>
                                         <div class="px-3 pt-0 pb-0 sub-card">
@@ -95,27 +95,20 @@
                                         <div class="cust-title p-3">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <h5 class="mb-0">Notifications</h5>
-                                                <a class="badge badge-primary badge-card" href="#">3</a>
+                                                <!-- <a class="badge badge-primary badge-card" href="#">3</a> -->
                                             </div>
                                         </div>
                                         <div class="px-3 pt-0 pb-0 sub-card">
                                             <a href="#" class="iq-sub-card">
                                                 <div class="media align-items-center cust-card py-3 border-bottom">
-                                                    <div class="">
-                                                        <img class="avatar-50 rounded-small"
-                                                            src="<?php echo $theme->assetPath; ?>/images/user/01.jpg"
-                                                            alt="01">
-                                                    </div>
                                                     <div class="media-body ml-3">
                                                         <div class="d-flex align-items-center justify-content-between">
-                                                            <h6 class="mb-0">Emma Watson</h6>
-                                                            <small class="text-dark"><b>12 : 47 pm</b></small>
+                                                            <h6 class="mb-0">No Messages</h6>
                                                         </div>
-                                                        <small class="mb-0">Lorem ipsum dolor sit amet</small>
                                                     </div>
                                                 </div>
                                             </a>
-                                            <a href="#" class="iq-sub-card">
+                                            <!-- <a href="#" class="iq-sub-card">
                                                 <div class="media align-items-center cust-card py-3 border-bottom">
                                                     <div class="">
                                                         <img class="avatar-50 rounded-small"
@@ -146,12 +139,12 @@
                                                         <small class="mb-0">Lorem ipsum dolor sit amet</small>
                                                     </div>
                                                 </div>
-                                            </a>
+                                            </a> -->
                                         </div>
-                                        <a class="right-ic btn btn-primary btn-block position-relative p-2" href="#"
+                                       <!--  <a class="right-ic btn btn-primary btn-block position-relative p-2" href="#"
                                             role="button">
                                             View All
-                                        </a>
+                                        </a> -->
                                     </div>
                                 </div>
                             </div>
@@ -172,12 +165,12 @@
                                                 alt="profile-img" class="rounded profile-img img-fluid avatar-70">
                                         </div>
                                         <div class="p-3">
-                                            <h5 class="mb-1">JoanDuo@property.com</h5>
-                                            <p class="mb-0">Since 10 march, 2020</p>
+                                            <h5 class="mb-1"><?php echo "$user->FirstName $user->LastName"; ?></h5>
+                                            <p class="mb-0"></p>
                                             <div class="d-flex align-items-center justify-content-center mt-3">
-                                                <a href="https://templates.iqonic.design/posdash/html/app/user-profile.html"
-                                                    class="btn border mr-2">Profile</a>
-                                                <a href="auth-sign-in.html" class="btn border">Sign Out</a>
+                                               <!--  <a href="https://templates.iqonic.design/posdash/html/app/user-profile.html"
+                                                    class="btn border mr-2">Profile</a> -->
+                                                <a href="/logout" class="btn border">Sign Out</a>
                                             </div>
                                         </div>
                                     </div>

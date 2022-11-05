@@ -17,6 +17,12 @@
 		break;
 		case '/test/query':
 				$request->route = "query";
+				$request->flag = "query";
+				$core->route($request, true);
+		break;
+		case '/test/date':
+				$request->route = "query";
+				$request->flag = "date";
 				$core->route($request, true);
 		break;
 	}

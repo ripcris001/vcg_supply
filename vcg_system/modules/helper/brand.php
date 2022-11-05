@@ -10,13 +10,21 @@
 			$filter = new stdClass();
 			$filter->count = false;
 			$filter->all = isset($param->all) ? $param->all : null;
-			$queryString = $this->builder->select("brand");
+			if(isset($param->select)){
+				$queryString = $this->builder->select($param->select, "brand");
+			}else{
+				$queryString = $this->builder->select("brand");
+			}
 			if(isset($param->count)){
-				$filter->count = true;
+				$queryString = $queryString->count($param->count);
+			}
+			if(isset($param->sum)){
+				$queryString = $queryString->sum($param->sum);
 			}
 			if(isset($param->condition)){
 				$queryString = $queryString->where($param->condition);
 			}
+			
 			$queryString = $queryString->string();
 			$brand = $this->helper->get($queryString, $filter->all);
 			return $brand;

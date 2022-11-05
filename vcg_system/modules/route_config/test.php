@@ -20,6 +20,12 @@
 			$parse = (int)$parse;
 			echo "$parse";
 		break;
+		case '/date':
+			$request->route = "pages/test";
+			$request->flag = "date";
+			$core->route($request);
+		break;
+
 		default:
 			$request->template->content("error/404", true)->render("frontstore");
 		break;

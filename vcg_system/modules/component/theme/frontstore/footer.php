@@ -6,10 +6,10 @@
                     <a href="index-2.html">
                         <img src="<?php echo INFO_LOGO_2; ?>" alt="image">
                     </a>
-                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <!-- <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
                     <ul class="footer-social">
                         <li>
-                            <a href="#" target="_blank">
+                            <a href="https://www.facebook.com/people/VCG-TIRE-Supply/100082047447687/" target="_blank">
                                 <i class='bx bxl-facebook'></i>
                             </a>
                         </li>
@@ -66,17 +66,17 @@
                     <ul class="quick-links">
                         <li>
                             <i class='bx bxs-chevrons-right'></i>
-                            <a href="#">About Company</a>
+                            <a href="/contact">Contact Us</a>
                         </li>
                         <li>
                             <i class='bx bxs-chevrons-right'></i>
-                            <a href="#">Services</a>
+                            <a href="#">Services (Soon)</a>
                         </li>
                         <li>
                             <i class='bx bxs-chevrons-right'></i>
-                            <a href="#">Shop</a>
+                            <a href="/product">Product</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <i class='bx bxs-chevrons-right'></i>
                             <a href="#">FAQ</a>
                         </li>
@@ -87,7 +87,7 @@
                         <li>
                             <i class='bx bxs-chevrons-right'></i>
                             <a href="#">Gallery</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
