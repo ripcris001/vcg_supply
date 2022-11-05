@@ -55,7 +55,7 @@
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <div class="middle-header-search">
-                    <form class="search-form">
+                    <!-- <form class="search-form">
                         <label>
                             <span class="screen-reader-text">Search for:</span>
                             <input type="search" class="search-field" placeholder="Search the entire store here">
@@ -63,17 +63,17 @@
                         <button type="submit">
                             <i class='bx bx-search-alt'></i>
                         </button>
-                    </form>
+                    </form> -->
                 </div>
             </div>
             <div class="col-lg-6">
                 <ul class="middle-header-optional">
-                    <li>
+                    <!-- <li>
                         <a href="#"><i class="flaticon-heart"><span>0</span></i> Wishlist</a>
                     </li>
                     <li>
                         <a href="#"><i class="flaticon-shopping-cart"><span>0</span></i> Add to Cart</a>
-                    </li>
+                    </li> -->
                     <li>
                         <?php
                             if(isset($login->ID)){

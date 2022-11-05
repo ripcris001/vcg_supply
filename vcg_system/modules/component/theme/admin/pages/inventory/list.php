@@ -4,7 +4,7 @@
             <div>
                 <h4 class="mb-3">Inventory Page</h4>
             </div>
-            <a href="javascript:void(0)" class="btn btn-primary add-brand"><i class="las la-plus mr-3"></i>Add
+            <a href="/admin/inventory/add" class="btn btn-primary"><i class="las la-plus mr-3"></i>Add
                 Inventory</a>
         </div>
     </div>
@@ -13,8 +13,11 @@
             <table class="data-table table mb-0 tbl-server-info" id="brand-table">
                 <thead class="bg-white text-uppercase">
                     <tr class="ligth ligth-data">
-                        <th>ID</th>
-                        <th>Brand Name</th>
+                        <th>PO#</th>
+                        <th>Total Item</th>
+                        <th>Purchase Order Date</th>
+                        <th>Date</th>
+                        <th>Status</th>
                         <th class="col-md-3">Action</th>
                     </tr>
                 </thead>
@@ -109,7 +112,7 @@
                     "sort": true,
                     "info": true,
                     "ajax": {
-                        url: "/api/brand",
+                        url: "/api/inventory",
                         type: "post",
                         dataSrc: function(source){
                             const arr = [];
@@ -123,14 +126,9 @@
                                     }
                                     loopdata.brand_id = `<div class="text-center">${loopdata.brand_id}</div>`;
                                     loopdata.nAction = `
-                                    <div class="d-flex align-items-center">
-                                        <a class="badge bg-success mr-2" title="edit" href="javascript:void(0)">
-                                            <i class="ri-pencil-line mr-0"></i>
-                                        </a>
-                                        <a class="badge bg-warning mr-2" title="delete" href="javascript:void(0)">
-                                            <i class="ri-delete-bin-line mr-0"></i>
-                                        </a>
-                                    </div>
+                                        <a class="badge bg-info mr-2 btn-view-po" title="edit" href="javascript:void(0)">
+                                            <i class="ri-eye-line mr-0"></i>
+                                        </a>                                                  
                                     ${createLoginAccount}
                                     `;
                                     arr.push(loopdata);
@@ -144,11 +142,19 @@
                         }
                     },
                     "columns": [{
-                        "data": "brand_id"
+                        "data": "po_number",
+                        "className": "uppercase text-center",
                     },{
-                        "data": "brand_name"
+                        "data": "total_item"
                     },{
-                        "data": "nAction"
+                        "data": "po_date"
+                    },{
+                        "data": "date_created"
+                    },{
+                        "data": "status"
+                    },{
+                        "data": "nAction",
+                        "className": "text-center",
                     }]
                 });
             },
@@ -187,6 +193,11 @@
                             }
                         }
                     })
+                })
+                 $(__self.table.main).on('click', 'tr td .btn-view-po',  function() {
+                    const local = $(this);
+                    const tdata = __self.datatable.main.row($(this.closest("tr"))).data();
+                    window.location.href = `/admin/inventory/view?purchase_order=${tdata.id}`;
                 })
             }
         }

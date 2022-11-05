@@ -19,7 +19,7 @@
 			$sidebar[2] = $this->sidebar("User");
 			$sidebar[2]->icon = "all_user";
 			$sidebar[2]->subs[0] = $this->sidebar("User List", "/admin/user");
-			$sidebar[2]->subs[1] = $this->sidebar("User Roles", "/admin/user/roles");
+			// $sidebar[2]->subs[1] = $this->sidebar("User Roles", "/admin/user/roles");
 
 			$sidebar[3] = $this->sidebar("Inventory");
 			$sidebar[3]->icon = "stock";

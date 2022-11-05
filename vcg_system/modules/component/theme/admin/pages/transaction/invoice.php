@@ -64,9 +64,8 @@
                </div>                              
             </div>
             <div class="row">
-               <div class="col-sm-12">
-                  <b class="text-danger">Delivery Notes:</b>
-                  <p class="mb-0 delivery-note"></p>
+               <div class="col-sm-12 delivery-display">
+                 
                </div>
             </div>
             <div class="row mt-4 mb-3">
@@ -149,10 +148,12 @@
                }
             })
             $('.shipping-info').addClass('capitalize').html(`${transaction.shipping.shipping_id ? transaction.shipping.info.shipping_address : "#"}`);
-            $('.delivery-note').addClass('capitalize').html(`${transaction.shipping.shipping_id ? transaction.shipping.info.shipping_note : "#"}`);
             $('.customer-name').addClass('capitalize').html(`${transaction.customer.customer_id ? transaction.customer.info.customer_name : "Walk-in Customer"}`);
-
-            
+            if(transaction.transaction_type == "delivery"){
+                $('.delivery-display').html(`<b class="text-danger">Delivery Notes:</b>
+                  <p class="mb-0 delivery-note">${transaction.shipping.info.shipping_note}</p>`)
+            }
+           
             this.loadOrderSummary(transaction);
          },
          loadOrderSummary: function(data){

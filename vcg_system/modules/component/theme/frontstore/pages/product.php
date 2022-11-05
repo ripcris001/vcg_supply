@@ -13,13 +13,13 @@
                     </div>
                 </div>
                 <div class="shop-sidebar">
-                    <div class="brand-sidebar-item">
+                    <!-- <div class="brand-sidebar-item">
                         <h3>Brand</h3>
                         <ul class="brand-input-checkbox">
     
                         </ul>
-                    </div>
-                    <div class="discount-sidebar-item">
+                    </div> -->
+                    <!-- <div class="discount-sidebar-item">
                         <h3>With Discount</h3>
                         <ul class="discount-input-checkbox">
                             <li class="checkbox">
@@ -35,7 +35,7 @@
                                 <label class="label">Yes</label>
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="col-lg-9 col-md-12 product-list">

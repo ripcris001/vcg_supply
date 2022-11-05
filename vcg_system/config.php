@@ -2,9 +2,9 @@
 	
 
 	# database configuration
-	Define("DBHOST", "localhost");
-	Define("DBUSER", "root");
-	Define("DBPASS", "");
+	Define("DBHOST", "192.168.0.28");
+	Define("DBUSER", "vgc_supply");
+	Define("DBPASS", "admin");
 	Define("DBNAME", "vgc_supply");
 	Define("DBPREFIX", "vgc_");
 
@@ -20,8 +20,8 @@
 	Define("INFO_EMAIL", 'test@admin.com');
 	Define("INFO_ADDRESS", 'Triangle Lot E, Burgos EXT., BRGY. Estefania, Bacolod City');
 	Define("INFO_OFFICE_HOURS", 'Monday - Friday 8:00 AM - 5:00 PM');
-	Define("INFO_TELE_CONTACT_NUMBER", '2135977');
-	Define("INFO_CONTACT_NUMBER", '213-5977');
+	Define("INFO_TELE_CONTACT_NUMBER", '09985622998');
+	Define("INFO_CONTACT_NUMBER", '0998-562-2998');
 	Define("INFO_PHONE_NUMBER", '0998-52622988');
 	Define("INFO_WEBSITE", 'www.vcgtiresupply.ph');
 
@@ -55,7 +55,8 @@
 		"/admin/product" => ["a_product", "get" ],
 		"/admin/inventory" => ["inventory", "get" ],
 		"/admin/transaction" => ["transaction", "get" ],
-		"/test" => ["test", "get" ],
+		"/admin/user" => ["user", "get" ],
+		"/test" => ["test", "get" ]
 	));
 	Define("HELPER", array("component","universal","brand", "category", "user", "product", "transaction", "customer"));
 	Define("SPECIAL_ROLE", array("developer"));

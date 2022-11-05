@@ -6,6 +6,17 @@
 		break;
 		case '/users':
 			$request->route = "api/users";
+			$request->flag = "get";
+			$core->route($request);
+		break;
+		case '/users/add':
+			$request->route = "api/users";
+			$request->flag = "add";
+			$core->route($request);
+		break;
+		case '/users/update':
+			$request->route = "api/users";
+			$request->flag = "update";
 			$core->route($request);
 		break;
 		//product api
@@ -84,6 +95,23 @@
 		case '/customer/shipping/add':
 			$request->route = "api/customer";
 			$request->flag = "addshipping";
+			$core->route($request);
+		break;
+
+		case '/inventory':
+			$request->route = "api/inventory";
+			$request->flag = "get";
+			$core->route($request);
+		break;
+		case '/inventory/add':
+			$request->route = "api/inventory";
+			$request->flag = "add";
+			$core->route($request);
+		break;
+
+		case '/dashboard':
+			$request->route = "api/dashboard";
+			$request->flag = "get";
 			$core->route($request);
 		break;
 

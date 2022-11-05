@@ -10,9 +10,16 @@
 			$filter = new stdClass();
 			$filter->count = false;
 			$filter->all = isset($param->all) ? $param->all : null;
-			$queryString = $this->builder->select("transaction");
+			if(isset($param->select)){
+				$queryString = $this->builder->select($param->select, "transaction");
+			}else{
+				$queryString = $this->builder->select("transaction");
+			}
 			if(isset($param->count)){
-				$filter->count = true;
+				$queryString = $queryString->count($param->count);
+			}
+			if(isset($param->sum)){
+				$queryString = $queryString->sum($param->sum);
 			}
 			if(isset($param->condition)){
 				$queryString = $queryString->where($param->condition);
@@ -23,6 +30,7 @@
 			if(isset($param->limit)){
 				$queryString = $queryString->limit($param->limit);
 			}
+			
 			$queryString = $queryString->string();
 			$transaction = $this->helper->get($queryString, $filter->all);
 			$transaction->source = "transaction get";

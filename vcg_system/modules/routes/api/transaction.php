@@ -37,6 +37,8 @@
 				}
 				$post["assign_cashier"] = $core->get_session("login");
 				$post["assign_cashier"] = $post["assign_cashier"]->ID;
+				$post["date_created"] = date_create();
+				$post["date_created"] = date_format($post["date_created"],"Y-m-d");
 				
 				$addTransaction = $helper->transaction->addTransaction($post);
 				if($addTransaction->status){

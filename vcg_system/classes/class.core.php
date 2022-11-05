@@ -228,17 +228,14 @@
 		# encrypt input
 		public function encrypt($data, $eiv = null){
 			$out = new stdClass();
-			if(isset($eiv) && strtolower($eiv) == 'create'){
+			if(!isset($eiv)){
 				$iv = $this->randomChar(16);
-			}if(isset($eiv)){
+			}else if(isset($eiv)){
 				$iv = $eiv;
 			}else{
-				$iv = $encryption_iv;
+				$iv = $this->encryption_iv;
 			}
-			// $iv_length = openssl_cipher_iv_length($this->encryption_cipher);
-			$encryption_iv = substr(hash('sha256', $this->encryption_iv), 0, 16); 
 			$encryption_key = hash('sha256', $this->encryption_key); 
-			// $encryption = openssl_encrypt($data, $this->encryption_cipher, $encryption_key, 0, $encryption_iv); 
 			$encryption = openssl_encrypt($data, $this->encryption_cipher, $encryption_key, 0, $iv);
 			$out->hash = $iv;
 			$out->enc = $encryption;

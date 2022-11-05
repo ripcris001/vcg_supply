@@ -233,8 +233,8 @@
             }
         },
         print: function(){
+        	window.onafterprint = window.close;
         	window.print();
-        	window.close();
         }
       }
       transaction.setData(transData).init();

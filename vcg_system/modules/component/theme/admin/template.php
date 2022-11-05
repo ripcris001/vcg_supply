@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="<?php echo $theme->assetPath; ?>/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
     <link rel="stylesheet" href="<?php echo $theme->assetPath; ?>/vendor/remixicon/fonts/remixicon.css">
     <link rel="stylesheet" href="<?php echo CUSTOMASSEST; ?>/custom.css">
+    <link rel="stylesheet" href="<?php echo CUSTOMASSEST; ?>/plugin/fontawesome/faw/css/all.min.css">
     
     <!-- Backend Bundle JavaScript -->
     <script src="<?php echo $theme->assetPath; ?>/js/backend-bundle.min.js"></script>
