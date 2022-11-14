@@ -161,9 +161,11 @@
                         const local = data[a];
                         const remaining_qty = local.remaining_stock;
                         tempHtml = `
+                                <li>Price: <span class="denomitaion"><span class="denomitaion">₱</span>${utils.currency(local.product_price)}</span></li>
                                 <li>Category: <span class="capitalize">${local.category}</span></li>
                                 <li>Brand: <span class="capitalize">${local.brand}</span></li>
                                 <li>Remaining Qty.: <span class="capitalize">${remaining_qty > 0 ? remaining_qty : "Sold out" }</span></li>
+
                             `;
                         local.product_description = JSON.parse(local.product_description);
                         if(Object.keys(local.product_description).length){
@@ -205,18 +207,8 @@
                                 </div>
                                 <div class="col-lg-3 col-sm-3">
                                     <ul class="shop-btn-list">
-                                        <li>
-                                            <span><span class="denomitaion">₱</span>${local.product_price}</span>
-                                        </li>
-                                        <li>
-                                            <a class="${remaining_qty ? "" : "disabled"}">Add To Cart</a>
-                                        </li>
-                                        <li>
-                                            <a class="${remaining_qty ? "" : "disabled"}">Add To Wishlist</a>
-                                        </li>
-                                        <li>
-                                            <a class="${remaining_qty ? "" : "disabled"}">Add To Compare</a>
-                                        </li>
+                                        
+                                        
                                     </ul>
                                 </div>
                             </div>

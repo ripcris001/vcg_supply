@@ -12,11 +12,17 @@
 					foreach ($post as $key => $value) {
 						if($value){	
 							if($key == 'category'){
-								array_push($input->condition, ["product_category", "=", "$value"]);
+								if(isset($value)){
+									array_push($input->condition, ["product_category", "=", "$value"]);
+								}
 							}else if($key == 'brand'){
-								array_push($input->condition, ["product_brand", "=", "$value"]);
+								if(isset($value)){
+									array_push($input->condition, ["product_brand", "=", "$value"]);
+								}
 							}else{
-								array_push($input->condition, ["$key", "=", "$value"]);
+								if(isset($value)){
+									array_push($input->condition, ["$key", "=", "$value"]);
+								}
 							}
 						}
 					}

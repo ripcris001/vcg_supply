@@ -101,7 +101,7 @@
         </div>
     </div>
 </section>
-<section class="products-area pt-100 pb-100">
+<!-- <section class="products-area pt-100 pb-100">
     <div class="container">
         <div class="section-title">
             <h2>Best Selling Products</h2>
@@ -879,4 +879,4 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->

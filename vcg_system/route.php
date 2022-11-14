@@ -18,6 +18,11 @@
 					$request->flag = "login";
 					$core->route($request);
 				break;
+				case '/register':
+					$request->route = "pages/login";
+					$request->flag = "register";
+					$core->route($request);
+				break;
 				case '/shop':
 					$request->route = "pages/shop";
 					$request->require->login = 1;

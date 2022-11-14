@@ -121,15 +121,16 @@
                                     if(!loopdata.User_ID){
                                         // createLoginAccount = `<a class="btn btn-secondary btn-create-login"> <i data-feather="plus-square"> </i>Create Login</a>`;
                                     }
-                                    loopdata.nAction = `
-                                    <div class="d-flex align-items-center">
-                                        <a class="badge bg-success mr-2" title="edit" href="javascript:void(0)">
-                                            <i class="ri-pencil-line mr-0"></i>
-                                        </a>
-                                        <a class="badge bg-warning mr-2" title="delete" href="javascript:void(0)">
-                                            <i class="ri-delete-bin-line mr-0"></i>
-                                        </a>
-                                    </div>`;
+                                    loopdata.nAction = "No action";
+                                    // loopdata.nAction = `
+                                    // <div class="d-flex align-items-center">
+                                    //     <a class="badge bg-success mr-2" title="edit" href="javascript:void(0)">
+                                    //         <i class="ri-pencil-line mr-0"></i>
+                                    //     </a>
+                                    //     <a class="badge bg-warning mr-2" title="delete" href="javascript:void(0)">
+                                    //         <i class="ri-delete-bin-line mr-0"></i>
+                                    //     </a>
+                                    // </div>`;
                                     arr.push(loopdata);
                                     if(a == (count -1)){
                                         return arr;

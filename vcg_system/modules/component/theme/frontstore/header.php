@@ -76,7 +76,7 @@
                     </li> -->
                     <li>
                         <?php
-                            if(isset($login->ID)){
+                            if(isset($customerLogin->customer_id)){
                                 echo '<a href="/logout" class="user-btn"><i class="flaticon-enter"></i>Logout</a>';
                             } else{
                                 echo '<a href="/login" class="user-btn"><i class="flaticon-enter"></i>Login / Register</a>';

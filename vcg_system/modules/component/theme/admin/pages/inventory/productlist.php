@@ -2,10 +2,8 @@
     <div class="col-lg-12">
         <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
             <div>
-                <h4 class="mb-3">Product List</h4>
+                <h4 class="mb-3">Product Inventory List</h4>
             </div>
-            <a href="/admin/product/add" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Add
-                Purchase</a>
         </div>
         <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
             <div class="col-md-3 pl-0">
@@ -22,6 +20,7 @@
                     <tr class="ligth ligth-data">
                         <th>Size</th>
                         <th>Brand</th>
+                        <th>Remaining qty.</th>
                         <th>Category</th>
                         <th>Price</th>
                         <th>Action</th>
@@ -115,7 +114,6 @@
                         type: "post",
                         data: filter,
                         dataSrc: function(source){
-                            console.log(source);
                             const arr = [];
                             const count = source.data && source.data.length ? source.data.length : 0;
                             if(count){
@@ -149,6 +147,9 @@
                         "className": 'uppercase'
                     },{
                         "data": "brand",
+                        "className": 'uppercase'
+                    },{
+                        "data": "remaining_stock",
                         "className": 'uppercase'
                     },{
                         "data": "category",

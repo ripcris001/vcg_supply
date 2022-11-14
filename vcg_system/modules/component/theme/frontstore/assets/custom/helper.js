@@ -147,5 +147,9 @@ const utils = {
                 callback(res);
             });
         }
+    },
+    currency: function(param){
+        param = param ? param : 0;
+        return param.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     }
 }

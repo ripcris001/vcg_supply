@@ -22,8 +22,11 @@
 
 				// total transaction
 				$objTrans = $core->obj();
-				$objTrans->date = $helper->universal->currentDate();
-				$objTrans->condition = [["date_created", '=', $objTrans->date]];
+				$objTrans->date = $core->obj();
+				$objTrans->date->filter = $core->obj();
+				$objTrans->date->filter->type = "yesterday";
+				$objTrans->date->filter->data = $helper->universal->getDateRange($objTrans->date->filter);
+				$objTrans->condition = [["date_created", '=', $objTrans->date->filter->data->start]];
 				$objTrans->count = "id";
 				$qTrans = $helper->transaction->getTransaction($objTrans);
 				if($qTrans->status){
@@ -49,9 +52,9 @@
 				$objDTSTrans = $core->obj();
 				$objDTSTrans->date = $core->obj();
 				$objDTSTrans->date->filter = $core->obj();
-				$objDTSTrans->date->filter->type = "year";
+				$objDTSTrans->date->filter->type = "yesterday";
 				$objDTSTrans->date->filter->data = $helper->universal->getDateRange($objDTSTrans->date->filter);
-				$objDTSTrans->condition = [["date_created", '=', $objDTSTrans->date->filter->data->date]];
+				$objDTSTrans->condition = [["date_created", '=', $objDTSTrans->date->filter->data->start]];
 				$objDTSTrans->sum = "overall_total";
 				$qDTSTrans = $helper->transaction->getTransaction($objDTSTrans);
 				if($qDTSTrans->status){

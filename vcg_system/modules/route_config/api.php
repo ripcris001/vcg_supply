@@ -2,6 +2,17 @@
 	switch($request->url){
 		case '/login':
 			$request->route = "api/login";
+			$request->flag = "user";
+			$core->route($request);
+		break;
+		case '/login/register':
+			$request->route = "api/login";
+			$request->flag = "register";
+			$core->route($request);
+		break;
+		case '/login/customer':
+			$request->route = "api/login";
+			$request->flag = "customer";
 			$core->route($request);
 		break;
 		case '/users':

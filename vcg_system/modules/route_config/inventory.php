@@ -3,6 +3,11 @@
 	switch($request->url){
 		case '/':
 			$request->route = "pages/admin/inventory";
+			$request->flag = "product";
+			$core->route($request);
+		break;
+		case '/po':
+			$request->route = "pages/admin/inventory";
 			$request->flag = "get";
 			$core->route($request);
 		break;

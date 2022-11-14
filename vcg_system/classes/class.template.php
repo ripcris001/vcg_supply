@@ -26,6 +26,7 @@
 					$this->structure->$field = $value;
 				}
 			}
+			return $this;
 		}
 		public function content($data, $file = false){
 			if($file){
@@ -50,6 +51,7 @@
 			$this->theme($data);
 			$this->buildFilePaths($this->structure->contentFilter->isFile);
 			$login = $this->get_session('login');
+			$customerLogin = $this->get_session('customer');
 			$theme = $this->structure;
 			$data = $this->contentdata;
 			$user = isset($_SESSION) ? $this->get_session("login") : $this->obj();

@@ -2,9 +2,9 @@
 	
 
 	# database configuration
-	Define("DBHOST", "192.168.0.28");
-	Define("DBUSER", "vgc_supply");
-	Define("DBPASS", "admin");
+	Define("DBHOST", "localhost");
+	Define("DBUSER", "root");
+	Define("DBPASS", "");
 	Define("DBNAME", "vgc_supply");
 	Define("DBPREFIX", "vgc_");
 
