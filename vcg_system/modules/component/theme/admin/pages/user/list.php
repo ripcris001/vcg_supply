@@ -42,13 +42,13 @@
                         <div class="modal-form">
                             <div class="form-group">
                             <label for="input_brand_name">Password</label>
-                            <input type="text" name="Password" class="form-control form-input" required placeholder="Enter Oassword">
+                            <input type="password" name="Password" class="form-control form-input" required placeholder="Enter Password">
                             </div>
                         </div>
                         <div class="modal-form">
                             <div class="form-group">
                             <label for="input_brand_name">Confirm Password</label>
-                            <input type="text" name="Confirm_Password" class="form-control form-input" required placeholder="Confirm Password">
+                            <input type="password" name="Confirm_Password" class="form-control form-input" required placeholder="Confirm Password">
                             </div>
                         </div>
                         <div class="modal-form">
@@ -98,13 +98,13 @@
                         <div class="modal-form">
                             <div class="form-group">
                             <label for="input_brand_name">Password</label>
-                            <input type="text" name="Password" class="form-control form-input" placeholder="Enter Oassword">
+                            <input type="password" name="Password" class="form-control form-input" placeholder="Enter Password">
                             </div>
                         </div>
                         <div class="modal-form">
                             <div class="form-group">
                             <label for="input_brand_name">Confirm Password</label>
-                            <input type="text" name="Confirm_Password" class="form-control form-input" placeholder="Confirm Password">
+                            <input type="password" name="Confirm_Password" class="form-control form-input" placeholder="Confirm Password">
                             </div>
                         </div>
                         <div class="modal-form">

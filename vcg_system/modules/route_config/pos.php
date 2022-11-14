@@ -1,7 +1,7 @@
 <?php
-	$request->require->login = 1;
 	switch($request->url){
 		case '/':
+			$request->require->login = 1;
 			$request->route = "pages/pos/pos";
 			$request->flag = "pos";
 			$core->route($request);

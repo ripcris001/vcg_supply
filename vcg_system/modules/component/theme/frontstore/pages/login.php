@@ -4,7 +4,7 @@
             <div class="col-lg-2 col-md-12"></div>
             <div class="col-lg-8 col-md-12">
                 <div class="login-form mb-30">
-                    <h2>Login</h2>
+                    <h2>Customer Login</h2>
                     <form class="main-login-form">
                         <div class="form-group">
                             <label>Username</label>
@@ -39,14 +39,13 @@
             e.preventDefault();
             const username = $(this).find('#username').val()
             const password = $(this).find('#password').val()
-            $.post('/api/login', {username: username, password: password}).done(function(res){
+            $.post('/api/login/customer', {username: username, password: password}).done(function(res){
                 res = JSON.parse(res);
                 if(res.status){
                     utils.notify.setTitle("Success").setMessage(res.message).setType("success").load();
                     setTimeout(() => {
                         window.location.href = '/login';
-                    }, 3000)
-                    
+                    }, 3000);
                 }else{
                     utils.notify.setTitle("Error").setMessage(res.message).setType("danger").load();
                 }

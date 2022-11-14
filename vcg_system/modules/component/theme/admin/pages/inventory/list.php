@@ -4,6 +4,7 @@
             <div>
                 <h4 class="mb-3">Inventory Page</h4>
             </div>
+            
             <a href="/admin/inventory/add" class="btn btn-primary"><i class="las la-plus mr-3"></i>Add
                 Inventory</a>
         </div>
@@ -131,6 +132,7 @@
                                         </a>                                                  
                                     ${createLoginAccount}
                                     `;
+                                    // loopdata.nAction = "No action";
                                     arr.push(loopdata);
                                     if(a == (count -1)){
                                         return arr;

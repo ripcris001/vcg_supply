@@ -38,8 +38,12 @@
 				if($this->check_session()){
 					if(file_exists($path)){
 						$getUserRole = $this->get_session("login");
-						if(isset($getUserRole) && in_array($getUserRole->user_role_index, $routeRoule) || in_array($getUserRole->user_role_index, $data->specialRole)){
-							include($path);
+						if(isset($getUserRole) && isset($getUserRole->user_role_index)){
+							if(isset($getUserRole) && in_array($getUserRole->user_role_index, $routeRoule) || in_array($getUserRole->user_role_index, $data->specialRole)){
+								include($path);
+							}else{
+								$template->content("error/404", true)->render("frontstore");
+							}
 						}else{
 							$template->content("error/404", true)->render("frontstore");
 						}
@@ -47,7 +51,12 @@
 						$template->content("error/500", true)->render("frontstore");
 					}
 				}else{
-					$this->redirect("/login");
+					if(strpos($data->fullurl, '/admin') >= 0){
+						$this->redirect("/admin/login");
+					}else{
+						$this->redirect("/login");
+					}
+					
 				}
 			}else{
 				if($data->flag == "login" && $this->check_session()){

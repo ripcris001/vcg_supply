@@ -23,12 +23,17 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Note</label>
-                                <textarea name="po_date" class="form-control form-input" cols="8"></textarea>
+                                <label>Supplier</label>
+                                <input type="text" name="po_supplier" class="form-control form-input" placeholder="Enter Supplier" required>
                             </div>
                         </div>
-                        
-                        <div class="col-md-6">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Note</label>
+                                <textarea name="note" class="form-control form-input" cols="8"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>Select item</label>
                                 <select name="select_product" id="product_list" class="form-control product_list" data-style="py-0" ></select>	
@@ -36,8 +41,14 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
+                                <label>Original Price</label>
+                                <input type="number" name="select_quantity_price" class="form-control" placeholder="Enter Original Price">  
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
                                 <label>Quantity</label>
-                                <input type="number" name="select_quantity" class="form-control" placeholder="Enter Size">	
+                                <input type="number" name="select_quantity" class="form-control" placeholder="Enter Quantity">	
                             </div>
                         </div>
                         <div class="col-md-3 pt-3">
@@ -50,7 +61,9 @@
 				                <thead class="bg-white text-uppercase">
 				                    <tr class="ligth ligth-data">
 				                        <th>Product Name</th>
+                                        <th>Remaining qty.</th>
 				                        <th>Quantity</th>
+                                        <th>Original Price</th>
 				                        <th>brand</th>
 				                        <th>Category</th>
 				                        <th>Action</th>
@@ -116,7 +129,7 @@
             	if(product.length){
             		for(let a = 0, count = product.length; a < count; a++){
             			const l = product[a];
-            			new_product += `<option value="${l.product_id}">${l.product_name} [ ${l.category} / ${l.brand} ] [qty = ${l.remaining_stock}]</option>`;
+            			new_product += `<option value="${l.product_id}">${l.product_name} [ ${l.category} / ${l.brand} ]</option>`;
             			if(a == (count - 1)){
             				$('#product_list').html(new_product);
             				__self.select.product.selectpicker('refresh');
@@ -142,7 +155,11 @@
                         "data": "product_name",
                         "className": "capitalize text-center",
                     },{
+                        "data": "remaining_stock"
+                    },{
                         "data": "input_quantity"
+                    },{
+                        "data": "input_price"
                     },{
                         "data": "category"
                     },{
@@ -160,6 +177,7 @@
                 	const local = $(this);
                 	const selectedProduct = local.closest('.form-add-product').find('select[name=select_product]')
                 	const selectedQuantity = local.closest('.form-add-product').find('input[name=select_quantity]')
+                    const selectedQuantityPrice = local.closest('.form-add-product').find('input[name=select_quantity_price]')
                 	let input = {}
                 	if(!selectedProduct.val()){
                 		selectedProduct.closest('.bootstrap-select').addClass('form-error');
@@ -173,13 +191,16 @@
                 	if(!errCount){
                 		const product_id = selectedProduct.val();
                 		const product_quantity = selectedQuantity.val();
+                        const product_original_price = selectedQuantityPrice.val();
                 		const product = utils.findObjectIndex(s.data.product, 'product_id', product_id);
                 		if(product > -1){
                 			const checkproduct = utils.findObjectIndex(s.data.purchase_order.selectedProduct, 'product_id', product_id);
                 			if(checkproduct == -1){
                 				input = s.data.product[product];
                 				input.quantity = product_quantity;
-                				input.input_quantity = `<input type="number" value="${input.quantity}" data-id="${input.product_id}" name="selected-product-quantity" min=1 class="form-control" placeholder="Enter Size">`;
+                                input.original_price = product_original_price;
+                				input.input_quantity = `<input type="number" value="${input.quantity}" data-id="${input.product_id}" name="selected-product-quantity" min=1 class="form-control custom-input" placeholder="Enter Size">`;
+                                input.input_price = `<input type="number" value="${input.original_price}" data-id="${input.product_id}" required name="selected-product-price" min=1 class="form-control custom-input" placeholder="Enter Size">`;
                 				input.nAction = `<a class="badge bg-warning mr-2 btn-remove" title="delete" href="javascript:void(0)">
                                                 <i class="ri-delete-bin-line mr-0"></i>
                                             </a>`;
@@ -194,9 +215,10 @@
                 		}
                 	}
                 })
-                $('#product-table').on('change', 'input[name=selected-product-quantity]', function(){
+                $('#product-table').on('change', 'input.custom-input', function(){
                 	const local = $(this);
                 	const id = local.data('id');
+                    const name = local.attr("name");
                 	let value = local.val()
                 		value = value ? parseInt(value) : 0;
                 	if(value <= 0){
@@ -205,7 +227,12 @@
                 	if(id){
                 		const selectedProduct = utils.findObjectIndex(s.data.purchase_order.selectedProduct, 'product_id', id);
                 		if(selectedProduct > -1){
-                			s.data.purchase_order.selectedProduct[selectedProduct].quantity = value;
+                            if(name == 'selected-product-quantity'){
+                                s.data.purchase_order.selectedProduct[selectedProduct].quantity = value;
+                            }else if(name == 'selected-product-price'){
+                                s.data.purchase_order.selectedProduct[selectedProduct].original_price = value;
+                            }
+                			
                 		}else{
                 			utils.notify.setTitle("Error").setMessage("Product doesnt exist").setType("danger").load();
                 		}
@@ -233,10 +260,12 @@
 	                		local.find('.form-input').each(function(i){
 		                		const l = $(this);
 		                		const name = l.attr('name');
-		                		const value = l.val();
+		                		let value = l.val();
 		                		if(name){
 		                			input[name] = value;
-		                		}
+		                		}else{
+                                    console.log(name,value);
+                                }
 		                		if(i == (elemCount -1)){
 		                			input.selectedProduct = s.data.purchase_order.selectedProduct;
 		                			input.total_item = s.data.purchase_order.selectedProduct.length;
@@ -251,8 +280,10 @@
 		                					product_id: ldata.product_id,
 		                					quantity: ldata.quantity,
 		                					product_name: ldata.product_name,
+                                            original_price: ldata.original_price
 		                				})
 		                				if(a == (count -1)){
+                                            console.log(input);
 		                					input.selectedProduct = reviceSelectProduct;
 		                					input.selectedProduct = JSON.stringify(input.selectedProduct);
 			                				utils.request.set({data: input, url: '/api/inventory/add'}).send(function(res){

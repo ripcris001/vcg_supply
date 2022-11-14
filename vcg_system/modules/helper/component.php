@@ -12,9 +12,9 @@
 
 			$sidebar[1] = $this->sidebar("Product");
 			$sidebar[1]->icon = "cart";
-			$sidebar[1]->subs[0] = $this->sidebar("Product List", "/admin/product");
-			$sidebar[1]->subs[1] = $this->sidebar("Product Brand", "/admin/product/brand");
-			$sidebar[1]->subs[2] = $this->sidebar("Product Category", "/admin/product/category");
+			$sidebar[1]->subs[] = $this->sidebar("Product List", "/admin/product");
+			$sidebar[1]->subs[] = $this->sidebar("Product Brand", "/admin/product/brand");
+			$sidebar[1]->subs[] = $this->sidebar("Product Category", "/admin/product/category");
 
 			$sidebar[2] = $this->sidebar("User");
 			$sidebar[2]->icon = "all_user";
@@ -23,7 +23,8 @@
 
 			$sidebar[3] = $this->sidebar("Inventory");
 			$sidebar[3]->icon = "stock";
-			$sidebar[3]->subs[0] = $this->sidebar("Product Inventory", "/admin/inventory");
+			$sidebar[3]->subs[] = $this->sidebar("Product Inventory", "/admin/inventory");
+			$sidebar[3]->subs[] = $this->sidebar("Purchase Order", "/admin/inventory/po");
 
 			$sidebar[4] = $this->sidebar("Transaction");
 			$sidebar[4]->icon = "credit_card";

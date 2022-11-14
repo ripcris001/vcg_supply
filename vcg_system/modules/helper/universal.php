@@ -111,7 +111,11 @@
 						$output->end = strtotime(date_format($output->date, 'Y-12-01'));
 						$output->end = date('Y-m-t', $output->end);
 					break;
-					
+					case "yesterday":
+						$output->start = strtotime(date_format($output->date, 'Y-m-d'));
+						$output->start = date('Y-m-d', strtotime("-1 days"));
+						$output->end = $output->start;
+					break;
 				}
 			}
 			$output->date = strtotime(date_format($output->date, 'Y-m-d'));
