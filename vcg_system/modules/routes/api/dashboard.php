@@ -34,6 +34,20 @@
 					$output->data->daily_transaction = $qTrans->data->result;
 				}
 
+				// today sales
+				$objTodayTrans = $core->obj();
+				$objTodayTrans->date = $core->obj();
+				$objTodayTrans->date->filter = $core->obj();
+				$objTodayTrans->date->filter->type = "year";
+				$objTodayTrans->date->filter->data = $helper->universal->getDateRange($objTodayTrans->date->filter);
+				$objTodayTrans->condition = [["date_created", '=', $objTodayTrans->date->filter->data->date]];
+				$objTodayTrans->sum = "overall_total";
+				$qTrans = $helper->transaction->getTransaction($objTodayTrans);
+				if($qTrans->status){
+					$output->qTrans = $qTrans->data;
+					$output->data->today_sales = $qTrans->data->result;
+				}
+
 				// total transaction sale
 				$objTSTrans = $core->obj();
 				$objTSTrans->date = $core->obj();

@@ -50,6 +50,7 @@
                            <tr>
                               <th class="text-center" scope="col">#</th>
                               <th scope="col">Item</th>
+                              <th class="text-center" scope="col">Original Price</th>
                               <th class="text-center" scope="col">Brand</th>
                               <th class="text-center" scope="col">Category</th>
                               <th class="text-center" scope="col">Quantity</th>
@@ -158,8 +159,7 @@
                for(let a = 0, count = selectedProduct.length; a < count; a++){
                   const loopdata = selectedProduct[a];
                   console.log(loopdata);
-                  
-
+         
                   html += `
                      <tr>
                         <th class="text-center" scope="row">${a+1}</th>
@@ -167,6 +167,7 @@
                            <h6 class="mb-0">${loopdata.product_name}</h6>
                           
                         </td>
+                        <td class="text-center currency">${utils.currency(loopdata.original_price ? loopdata.original_price : 0)}</td>
                         <td class="text-center capitalize">${loopdata.category}</td>
                         <td class="text-center capitalize">${loopdata.brand}</td>
                         <td class="text-center capitalize"><b>${loopdata.quantity}</b></td>

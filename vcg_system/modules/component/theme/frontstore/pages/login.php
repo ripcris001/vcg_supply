@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 lost-your-password">
-                                <a href="#" class="lost-your-password">Forgot your password?</a>
+                                <a href="/register" class="lost-your-password">Sign up now?</a>
                             </div>
                         </div>
                         <button type="submit">Login</button>

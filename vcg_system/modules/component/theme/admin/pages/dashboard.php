@@ -10,8 +10,8 @@
                                     <i class="fa-solid fa-box"></i>
                                 </div>
                                 <div>
-                                    <p class="mb-2">Total Product</p>
-                                    <h4 class="dashboard-data" data-id="total_product">0</h4>
+                                    <p class="mb-2">Today Sales</p>
+                                    <h4 class="dashboard-data currency" data-id="today_sales">0</h4>
                                 </div>
                             </div>                                
                             <div class="iq-progress-bar mt-2">
@@ -389,7 +389,7 @@
                 const __self = this;
                 const data = __self.data;
                 const obj = Object.keys(data);
-                const currencyData = ['daily_sales', 'total_sales'] 
+                const currencyData = ['daily_sales', 'total_sales', 'today_sales'] 
                 if(obj.length){
                     $('.container-fluid').find('.dashboard-data').each(function(i){
                         const local = $(this);

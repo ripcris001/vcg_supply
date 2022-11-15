@@ -37,16 +37,13 @@
                         
                         <div class="row align-items-center">
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="checkme">
-                                    <label class="form-check-label" for="checkme">Remember me</label>
-                                </div>
+                                
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 lost-your-password">
-                                <a href="#" class="lost-your-password">Forgot your password?</a>
+                                <a href="/login" class="lost-your-password">Sign In?</a>
                             </div>
                         </div>
-                        <button type="submit">Login</button>
+                        <button type="submit">Register</button>
                     </form>
                 </div>
             </div>
