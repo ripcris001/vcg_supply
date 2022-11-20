@@ -88,9 +88,9 @@
 
 					</div>
 					<div class="topbar-item folder-data">
-						<!-- <div class="btn btn-icon  w-auto h-auto btn-clean d-flex align-items-center py-0 mr-3"  data-toggle="modal" data-target="#folderpop"
+						<div class="btn btn-icon  w-auto h-auto btn-clean d-flex align-items-center py-0 mr-3"  data-toggle="modal" data-target="#folderpop"
 						>
-							<span class="badge badge-pill badge-primary">5</span>
+							<span class="badge badge-pill badge-primary badge-cart-list">0</span>
 							<span class="symbol symbol-35  symbol-light-success">
 								<span class="symbol-label bg-warning font-size-h5 ">
 									<svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" fill="#ffff"  viewBox="0 0 16 16">
@@ -98,7 +98,7 @@
 									</svg>
 								</span>
 							</span>
-						</div> -->
+						</div>
 					</div>
 
 				<div class="dropdown">

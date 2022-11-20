@@ -11,6 +11,7 @@
 			switch($request->url){
 				case '/':
 					$request->route = "pages/home";
+					$request->flag = "home";
 					$core->route($request);
 				break;
 				case '/login':
@@ -34,6 +35,11 @@
 				break;
 				case '/contact':
 					$request->route = "pages/contact";
+					$core->route($request);
+				break;
+				case '/mycart':
+					$request->route = "pages/home";
+					$request->flag = "cart";
 					$core->route($request);
 				break;
 				case '/logout':

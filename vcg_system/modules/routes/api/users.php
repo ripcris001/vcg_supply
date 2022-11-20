@@ -50,7 +50,7 @@
 				$updateInput->set = $post['data'];
 				$input = $core->obj();
 				$input->condition = $post['condition'];
-				$check = $helper->user->getUser($input);
+				$check = $helper->transaction->getTransaction($input);
 				$output->input = $post;
 				// $output->post = $updateInput;
 				if($check->status){

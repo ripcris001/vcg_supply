@@ -210,5 +210,63 @@ Class product extends core {
 				}
 			}
 		}
+
+		public function addProductToCart($param = null){
+			$output = $this->output();
+			if(isset($param)){
+				$queryString = $this->builder->insert("customer_cart", $param);
+				$queryString = $queryString->string();
+				$output = $this->helper->add($queryString);
+			}
+			return $output;
+		}
+
+		public function getProductToCart($param = null){
+			$filter = new stdClass();
+			$filter->count = false;
+			$filter->all = isset($param->all) ? $param->all : null;
+			if(isset($param->select)){
+				$queryString = $this->builder->select($param->select, "customer_cart");
+			}else{
+				$queryString = $this->builder->select("customer_cart");
+			}
+			if(isset($param->count)){
+				$queryString = $queryString->count($param->count);
+			}
+			if(isset($param->sum)){
+				$queryString = $queryString->sum($param->sum);
+			}
+			if(isset($param->condition)){
+				$queryString = $queryString->where($param->condition);
+			}
+			if(isset($param->order)){
+				$queryString = $queryString->order($param->order);
+			}
+			if(isset($param->limit)){
+				$queryString = $queryString->limit($param->limit);
+			}
+			$queryString = $queryString->string();
+			$output = $this->helper->get($queryString, $filter->all);
+			return $output;
+		}
+		
+		public function updateProductToCart($param = null){
+			$filter = new stdClass();
+			$filter->count = false;
+			$filter->all = isset($param->all) ? $param->all : null;
+			$queryString = $this->builder->update("customer_cart");
+			if(isset($param->condition)){
+				$queryString = $queryString->where($param->condition);
+			}
+			if(isset($param->set)){
+				$queryString = $queryString->set($param->set);
+			}
+			$queryString = $queryString->string();
+			// $output = new stdClass();
+			$output = $this->helper->update($queryString);
+			$output->query  = $queryString;
+			return $output;
+		}
+
 	}
-?> 
+?>

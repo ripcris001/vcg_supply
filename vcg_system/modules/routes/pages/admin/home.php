@@ -1,4 +1,3 @@
-
 <?php
 	if(isset($data->flag)){
 		switch($data->flag){
@@ -8,7 +7,7 @@
 				$input->pageTitle = "Dashboard Page"; // breadcrum title
 				$template->data($input)->content("dashboard", true)->render("admin");
 			break;	
-			case "login":
+			case "adminlogin":
 				$input = $core->obj();
 				$input->title = "Login Page"; // header title
 				$input->pageTitle = "Dashboard Page"; // breadcrum title
