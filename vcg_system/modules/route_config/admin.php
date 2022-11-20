@@ -20,7 +20,7 @@
 		break;
 		case '/login':
 			$request->route = "pages/admin/home";
-			$request->flag = "login";
+			$request->flag = "adminlogin";
 			$core->route($request);
 		break;
 		default:

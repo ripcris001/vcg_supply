@@ -48,5 +48,23 @@
 			}
 			return $output;
 		}
+
+		public function updateTransaction($param = null){
+			$filter = new stdClass();
+			$filter->count = false;
+			$filter->all = isset($param->all) ? $param->all : null;
+			$queryString = $this->builder->update("transaction");
+			if(isset($param->condition)){
+				$queryString = $queryString->where($param->condition);
+			}
+			if(isset($param->set)){
+				$queryString = $queryString->set($param->set);
+			}
+			$queryString = $queryString->string();
+			// $output = new stdClass();
+			$output = $this->helper->update($queryString);
+			$output->query  = $queryString;
+			return $output;
+		}
 	}
-?> 
+?>

@@ -46,6 +46,12 @@
 					$output->transaction_id = $post["transaction_id"];
 					$output->status = true;
 					$updateTransactionStock = $helper->product->updateProductTransactionStock(json_decode($post["selectedProduct"]));
+					if(isset($post["cart_id"]) && gettype($post["cart_id"]) !== 'NULL'){
+						$updateCart = new stdClass();
+						$updateCart->condition = [["cart_id", "=", $post["cart_id"]]];
+						$updateCart->set = ["cart_status" => "completed"];
+						$updateCartq = $helper->product->updateProductToCart($updateCart);
+					}
 					if($updateTransactionStock->status){
 						$output->data = $updateTransactionStock->data;
 					}else{
@@ -55,6 +61,36 @@
 				}else{
 					$output->message = $addTransaction->message;
 					$core->response($add);
+				}
+			break;
+			case "update":
+				$output = $core->output();
+				$updateInput = $core->obj();
+				$post = $helper->universal->parsePost($req->post["value"]);
+				$updateInput->condition = $post['condition'];
+				$updateInput->set = $post['data'];
+				$input = $core->obj();
+				$input->condition = $post['condition'];
+				$check = $helper->transaction->getTransaction($input);
+				$output->input = $post;
+				// $output->post = $updateInput;
+				if($check->status){
+					if($updateInput->condition[0][0] == 'id'){
+						$updateInput->condition[0][2] = (int)$updateInput->condition[0][2];
+					}
+					$add = $helper->transaction->updateTransaction($updateInput);
+					if($add->status){
+						$output = $add;
+						$output->message = "Successfully update user";
+						$output->status = true;
+						$core->response($output);
+					}else{
+						$output->message = $add->message;
+						$core->response($output);
+					}
+				}else{
+					$output->message = "transaction doesnt exist";
+					$core->response($output);
 				}
 			break;
 		}

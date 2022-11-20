@@ -41,6 +41,26 @@
 			$request->flag = "add";
 			$core->route($request);
 		break;
+		case '/product/addtocart':
+			$request->route = "api/product/product";
+			$request->flag = "addtocart";
+			$core->route($request);
+		break;
+		case '/product/updatetocart':
+			$request->route = "api/product/product";
+			$request->flag = "updatetocart";
+			$core->route($request);
+		break;
+		case '/product/getpendingcart':
+			$request->route = "api/product/product";
+			$request->flag = "getpendingcart";
+			$core->route($request);
+		break;
+		case '/product/getprocesscart':
+			$request->route = "api/product/product";
+			$request->flag = "getprocesscart";
+			$core->route($request);
+		break;
 		//category api
 		case '/category':
 			$request->route = "api/product/category";
@@ -84,7 +104,11 @@
 			$request->flag = "add";
 			$core->route($request);
 		break;
-
+		case '/transaction/update':
+			$request->route = "api/transaction";
+			$request->flag = "update";
+			$core->route($request);
+		break;
 		case '/address':
 			$cdata = $core->obj();
 			$cdata->status = true;

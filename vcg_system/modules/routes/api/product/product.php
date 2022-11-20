@@ -87,6 +87,115 @@
 					$core->response($add);
 				}
 			break;
+			case "addtocart":
+				$output = $core->output();
+				$post = $helper->universal->parsePost($req->post["value"]);
+				if(isset($post["cart_id"]) && $post["cart_id"] === 0){
+					unset($post["cart_id"]);
+					$query = $helper->product->addProductToCart($post);
+					if($query->status){
+						$output->message = "Successfully added to cart.";
+						$output->status = true;
+						$core->response($output);
+					}else{
+						$output->message = "failed added to cart.";
+						$output->status = false;
+						$core->response($output);
+					}
+				}else{
+					$updateInput = $core->obj();
+					$updateInput->condition = [["cart_id", "=", (int)$post["cart_id"]]];
+					$updateInput->set = ["product_list" => $post["product_list"]];
+					$add = $helper->product->updateProductToCart($updateInput);
+					if($add->status){
+						$output = $add;
+						$output->message = "Successfully update cart";
+						$output->status = true;
+						$core->response($output);
+					}else{
+						$output->message = "failed to update cart";
+						$core->response($output);
+					}
+				}
+			break;
+			case "updatetocart":
+				$output = $core->output();
+				$updateInput = $core->obj();
+				$post = $helper->universal->parsePost($req->post["value"]);
+				$updateInput->condition = $post['condition'];
+				$updateInput->set = $post['data'];
+				$input = $core->obj();
+				$input->condition = $post['condition'];
+				$check = $helper->product->getProductToCart($input);
+				$output->input = $post;
+				// $output->post = $updateInput;
+				if($check->status){
+					if($updateInput->condition[0][0] == 'cart_id'){
+						$updateInput->condition[0][2] = (int)$updateInput->condition[0][2];
+					}
+					$add = $helper->product->updateProductToCart($updateInput);
+					if($add->status){
+						$output = $add;
+						$output->message = "Successfully update cart";
+						$output->status = true;
+						$core->response($output);
+					}else{
+						$output->message = $add->message;
+						$core->response($output);
+					}
+				}else{
+					$output->message = "transaction doesnt exist";
+					$core->response($output);
+				}
+			break;
+			case "getpendingcart":
+				$post = $helper->universal->parsePost($req->post["value"]);
+				$data = new stdClass();
+				$data->status = false;
+				$data->data = new stdClass();
+				if($this->check_session()){
+					$customer = $this->get_session("customer");
+					$input = new stdClass();
+					$input->condition = [["customer_id", "=", isset($post["customer_id"]) ? $post["customer_id"] : $customer->customer_id], ["cart_status", "=", "pending"]];
+					$query = $helper->product->getProductToCart($input);
+					if($query->status){
+						$data->status = true;
+						$data->data = $query->data;
+					}
+				}
+				$core->response($data);
+			break;
+			case "getprocesscart":
+				$output = $core->obj();
+				$input = new stdClass();
+				$input->all = true;
+				$input->condition = [["cart_status", "=", "processing"]];
+				$query = $helper->product->getProductToCart($input);
+				if($query->status){
+					$output->status = true;
+					$output->count = count((array)$query->data);
+					$output->data = [];
+					// $output->data = $query->data;
+					if(count((array)$query->data)){
+						foreach ($query->data as $key => $value) {
+						    $new = [];
+						    $new["cart_id"] = $value["cart_id"];
+						    $new["transaction_type"] = "delivery";
+						    $new["selectedProduct"] = $value["product_list"];
+						    $ci = new stdClass();
+						    $ci->condition = [["customer_id", '=', $value["customer_id"]]];
+						    $cq = $helper->customer->gerCustomer($ci);
+						    if($cq->status){
+						    	$new["customer"]["customer_id"] = $cq->data->customer_id;
+						    	$new["customer"]["info"] = $cq->data;
+						    }
+						    array_push($output->data, $new);
+						}
+					}
+				}
+				$core->response($output);
+			break;
+			
 		}
 	}
 ?>

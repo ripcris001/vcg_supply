@@ -18,15 +18,17 @@
                     <li>Currency: <b><?php echo INFO_CURRENCY; ?></b></li>
                     <li>
                         <div class="dropdown language-switcher d-inline-block">
-                            <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
                                 <span>Language <i class='bx bx-chevron-down'></i></span>
                             </button>
                             <div class="dropdown-menu">
                                 <a href="#" class="dropdown-item d-flex align-items-center">
-                                    <img src="<?php echo $theme->assetPath.'/img/english.png'; ?>" class="shadow-sm" alt="flag">
+                                    <img src="<?php echo $theme->assetPath.'/img/english.png'; ?>" class="shadow-sm"
+                                        alt="flag">
                                     <span>English</span>
                                 </a>
-                               <!--  <a href="#" class="dropdown-item d-flex align-items-center">
+                                <!--  <a href="#" class="dropdown-item d-flex align-items-center">
                                     <img src="<?php echo $theme->assetPath.'/img/arab.png'; ?>" class="shadow-sm" alt="flag">
                                     <span>العربيّة</span>
                                 </a>
@@ -68,12 +70,11 @@
             </div>
             <div class="col-lg-6">
                 <ul class="middle-header-optional">
-                    <!-- <li>
-                        <a href="#"><i class="flaticon-heart"><span>0</span></i> Wishlist</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="flaticon-shopping-cart"><span>0</span></i> Add to Cart</a>
-                    </li> -->
+                    <?php
+                            if(isset($customerLogin->customer_id)){
+                                echo '<li><a href="/mycart"><i class="flaticon-shopping-cart"></i> My Cart</a></li>';
+                            } 
+                    ?>
                     <li>
                         <?php
                             if(isset($customerLogin->customer_id)){
@@ -129,7 +130,8 @@
                         <div class="option-item">
                             <span>
                                 Hotline:
-                                <a href="tel:<?php echo INFO_TELE_CONTACT_NUMBER; ?>"><?php echo INFO_CONTACT_NUMBER; ?></a>
+                                <a
+                                    href="tel:<?php echo INFO_TELE_CONTACT_NUMBER; ?>"><?php echo INFO_CONTACT_NUMBER; ?></a>
                             </span>
                         </div>
                     </div>

@@ -60,7 +60,16 @@
 				}
 			}else{
 				if($data->flag == "login" && $this->check_session()){
-					$this->redirect("/");
+					$ses = $this->get_session("customer");
+					if(isset($ses)){
+						$this->redirect("/");
+					}
+				}
+				if($data->flag == "adminlogin" && $this->check_session()){
+					$ses = $this->get_session("login");
+					if(isset($ses)){
+						$this->redirect("/admin");
+					}
 				}
 				if(file_exists($path)){
 					include($path);
@@ -324,7 +333,6 @@
 						$context = json_encode($data);
 						$output = $output . ' data = `'.$context.'`;'; 
 						$output =  $output . ' data = JSON.parse(data); ';
-						
 					break;
 					case "integer":
 						$output = $output . ' data = '.$data.';'; 

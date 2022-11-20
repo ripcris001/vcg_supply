@@ -28,10 +28,11 @@
 
 			$sidebar[4] = $this->sidebar("Transaction");
 			$sidebar[4]->icon = "credit_card";
-			$sidebar[4]->subs[0] = $this->sidebar("All Transaction", "/admin/transaction");
+			$sidebar[4]->subs[] = $this->sidebar("All Transaction", "/admin/transaction");
+			$sidebar[4]->subs[] = $this->sidebar("Delivery", "/admin/transaction/delivery");
 
 			return $sidebar;
 		}
 			
 	}
-?> 
+?>
