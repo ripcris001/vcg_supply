@@ -109,6 +109,11 @@
 			$request->flag = "update";
 			$core->route($request);
 		break;
+		case '/transaction/sales':
+			$request->route = "api/transaction";
+			$request->flag = "sales";
+			$core->route($request);
+		break;
 		case '/address':
 			$cdata = $core->obj();
 			$cdata->status = true;

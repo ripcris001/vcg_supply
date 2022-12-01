@@ -267,6 +267,5 @@ Class product extends core {
 			$output->query  = $queryString;
 			return $output;
 		}
-
 	}
 ?>

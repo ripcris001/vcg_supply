@@ -584,9 +584,9 @@
             </div>
             <div class="modal-body pos-ordermain">
                 <div class="row cart-order">
-                    
-                    
-                    
+
+
+
 
                 </div>
             </div>
@@ -793,7 +793,7 @@ jQuery(document).ready(function() {
                 }
             })
         },
-        getCart: function(){
+        getCart: function() {
             const __self = this;
             utils.request.set({
                 data: input,
@@ -801,16 +801,17 @@ jQuery(document).ready(function() {
             }).send(function(res) {
                 if (res.status) {
                     __self.data.cart = res.data;
-                    jQuery('.pos-header').find('.badge-cart-list').html(res.data.length ? res.data.length : 0);
+                    jQuery('.pos-header').find('.badge-cart-list').html(res.data.length ? res
+                        .data.length : 0);
                     __self.loadCartOrder();
-                } 
+                }
             })
         },
-        loadCartOrder: function(){
+        loadCartOrder: function() {
             let html = "";
             const cartdata = this.data.cart;
-            if(cartdata.length){
-                for(let a = 0, count = cartdata.length; a < count; a++){
+            if (cartdata.length) {
+                for (let a = 0, count = cartdata.length; a < count; a++) {
                     const local = cartdata[a];
                     html += `<div class="col-lg-4">
                         <div class="pos-order">
@@ -832,12 +833,12 @@ jQuery(document).ready(function() {
                             </div>
                         </div>
                     </div>`;
-                    if(a == (count -1)){
+                    if (a == (count - 1)) {
                         jQuery('.modal-content').find('.cart-order').html(html);
                     }
                 }
             }
-            
+
         },
         constructAddress: function(data) {
             const __self = this;
@@ -1329,7 +1330,7 @@ jQuery(document).ready(function() {
                         .setType("danger").load();
                 }
             })
-            jQuery('.pos-ordermain').on('click', '.btn-load', function(){
+            jQuery('.pos-ordermain').on('click', '.btn-load', function() {
                 const local = jQuery(this);
                 const id = local.data('id');
                 transaction.loadCart(id);
@@ -1440,6 +1441,7 @@ jQuery(document).ready(function() {
             }
             __self.data.transaction = transaction;
             __self.resetDisplay();
+            main.getCart();
         },
         resetDisplay: function() {
             const __self = this;
@@ -1480,45 +1482,51 @@ jQuery(document).ready(function() {
                 }]
             });
         },
-        loadCart: function(param){
+        loadCart: function(param) {
             const __self = this;
             const cart = main.data.cart;
-            if(typeof cart[param] !== 'undefined'){
+            if (typeof cart[param] !== 'undefined') {
                 const cartdata = cart[param];
-                    if(typeof cartdata.selectedProduct == "string"){
+                if (typeof cartdata.selectedProduct == "string") {
 
-                        cartdata.selectedProduct = JSON.parse(cartdata.selectedProduct);
-                    }
+                    cartdata.selectedProduct = JSON.parse(cartdata.selectedProduct);
+                }
                 const obj = Object.keys(cartdata);
-                if(obj.length){
-                    for(let a = 0, count = obj.length; a < count; a++){
+                if (obj.length) {
+                    for (let a = 0, count = obj.length; a < count; a++) {
                         const index = obj[a];
                         const value = cartdata[index];
-                        if(typeof __self.data.transaction[index] !== 'undefined'){
-                            if(["selectedProduct"].indexOf(index) <= -1){
+                        if (typeof __self.data.transaction[index] !== 'undefined') {
+                            if (["selectedProduct"].indexOf(index) <= -1) {
                                 __self.data.transaction[index] = value;
                             }
                         }
-                        if(a == (count - 1)){
-                            if(cartdata.selectedProduct.length){
-                                for(let b = 0, pcount = cartdata.selectedProduct.length; b < pcount; b++){
+                        if (a == (count - 1)) {
+                            if (cartdata.selectedProduct.length) {
+                                for (let b = 0, pcount = cartdata.selectedProduct.length; b <
+                                    pcount; b++) {
                                     const pdata = cartdata.selectedProduct[b];
-                                    let apdata = utils.findObjectIndex(main.data.product, "product_id", pdata.product_id);
-                                    if(apdata > -1){
+                                    let apdata = utils.findObjectIndex(main.data.product, "product_id",
+                                        pdata.product_id);
+                                    if (apdata > -1) {
                                         apdata = main.data.product[apdata];
                                         apdata.transaction = pdata.transaction;
-                                        if(apdata.remaining_stock > 0){
-                                            if(apdata.remaining_stock <= apdata.transaction.quantity){
+                                        if (apdata.remaining_stock > 0) {
+                                            if (apdata.remaining_stock <= apdata.transaction.quantity) {
                                                 apdata.transaction.quantity = apdata.remaining_stock;
-                                                apdata.transaction.subtotal = parseFloat(apdata.transaction.price) * parseInt(apdata.transaction.quantity);
+                                                apdata.transaction.subtotal = parseFloat(apdata
+                                                    .transaction.price) * parseInt(apdata
+                                                    .transaction.quantity);
                                             }
-                                            if(utils.findObjectIndex(__self.data.transaction.selectedProduct, "product_id", pdata.product_id) <= -1){
+                                            if (utils.findObjectIndex(__self.data.transaction
+                                                    .selectedProduct, "product_id", pdata.product_id) <=
+                                                -1) {
                                                 __self.data.transaction.selectedProduct.push(apdata);
                                             }
                                             __self.addLoadRow(apdata);
                                         }
                                     }
-                                    if(b == (pcount - 1)){
+                                    if (b == (pcount - 1)) {
                                         // __self.loadTable();
                                         __self.generateTotal();
                                     }
@@ -1527,11 +1535,11 @@ jQuery(document).ready(function() {
                             }
                         }
                     }
-                }               
-            }else{
+                }
+            } else {
                 utils.notify.setTitle("Error").setMessage(
-                            `Cart id doesnt exist`
-                        ).setType("danger").load();
+                    `Cart id doesnt exist`
+                ).setType("danger").load();
             }
         },
         addSelectedProduct: function(data) {
@@ -1580,7 +1588,7 @@ jQuery(document).ready(function() {
             __self.datatable.main.row.add(input).draw();
             // __self.generateTotal();
         },
-        addLoadRow: function(data){
+        addLoadRow: function(data) {
             const __self = this
             const input = {
                 id: data.product_id ? parseInt(data.product_id) : null,
@@ -1730,7 +1738,8 @@ jQuery(document).ready(function() {
                 if (selectedProduct.length) {
                     if (balance <= 0) {
                         console.log(transaction);
-                        if (transaction.transaction_type == 'delivery' && !transaction.shipping.shipping_id) {
+                        if (transaction.transaction_type == 'delivery' && !transaction.shipping
+                            .shipping_id) {
                             utils.notify.setTitle("Warning").setMessage(
                                 "Shipping address not set!").setType("warning").load();
                         } else {
@@ -2041,7 +2050,8 @@ jQuery(document).ready(function() {
             if (selectedProduct.length) {
                 for (let a = 0, count = selectedProduct.length; a < count; a++) {
                     const loopdata = selectedProduct[a];
-                    transaction.sub_total += parseFloat(loopdata.transaction.subtotal ? loopdata.transaction.subtotal : 0);
+                    transaction.sub_total += parseFloat(loopdata.transaction.subtotal ? loopdata
+                        .transaction.subtotal : 0);
                 }
             }
             if (payment.length) {
@@ -2106,7 +2116,7 @@ jQuery(document).ready(function() {
     // setTimeout(function(){
     //     transaction.loadCart(0);
     // }, 5000)
-    
-    console.log("tr-data",transaction.data.transaction);
+
+    console.log("tr-data", transaction.data.transaction);
 })
 </script>
