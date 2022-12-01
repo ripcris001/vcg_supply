@@ -12,9 +12,9 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <h1 class="big-title">Invoice</h1>
-                            <span class="transaction-id">
-                                <b>Transaction No: </b>
+                            <h1 class="big-title">Purchase order</h1>
+                            <span class="transaction-po_number">
+                                <b>Purchase #: </b>
                             </span>
                             <span class="transaction-date">
                                 <b>Date: </b>
@@ -26,8 +26,8 @@
                     <div class="row gx-0 justify-content-between">
                         <div class="col-6">
                             <div class="invoice-left border-right">
-                                <b>Invoice To:</b>
-                                <address class="invoice-to">
+                                <b>Supplier:</b>
+                                <address class="po_supplier">
 
                                 </address>
                             </div>
@@ -65,7 +65,7 @@
                         <tr>
                             <th>Product Name.</th>
                             <th>Product Description</th>
-                            <th>Price</th>
+                            <th>Original Price</th>
                             <th>Qty</th>
                             <th>Amount</th>
                         </tr>
@@ -83,19 +83,19 @@
                         <table class="total-table">
                             <tr>
                                 <th>Sub Total:</th>
-                                <td class="transaction-info" data-action="sub_total">0.00</td>
+                                <td class="transaction-info currency" data-action="sub_total">0.00</td>
                             </tr>
                             <tr>
                                 <th>Discount:</th>
-                                <td class="transaction-info" data-action="discount_amount">0.00</td>
+                                <td class="transaction-info currency" data-action="discount_amount">0.00</td>
                             </tr>
                             <tr>
                                 <th>Shipping Fee:</th>
-                                <td class="transaction-info" data-action="shipping_cost">0.00</td>
+                                <td class="transaction-info currency" data-action="shipping_cost">0.00</td>
                             </tr>
                             <tr>
                                 <th>Total:</th>
-                                <td class="transaction-info" data-action="overall_total">0.00</td>
+                                <td class="transaction-info currency" data-action="overall_total">0.00</td>
                             </tr>
                         </table>
                     </div>
@@ -134,7 +134,8 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
-    let transData = <?php print_r($data->transaction ? json_encode($data->transaction) : ""); ?>;
+    let transData = <?php print_r($data->purchase_order ? json_encode($data->purchase_order) : ""); ?>;
+
     if (typeof transData.customer === 'string') {
         transData.customer = JSON.parse(transData.customer);
     }
@@ -144,7 +145,7 @@ $(document).ready(function() {
     if (typeof transData.shipping === 'string') {
         transData.shipping = JSON.parse(transData.shipping);
     }
-    console.log(transData)
+
     const transaction = {
         data: [],
         init: function() {
@@ -152,6 +153,7 @@ $(document).ready(function() {
             return this;
         },
         setData: function(data) {
+            console.log(data);
             if (data && Object.keys(data).length) {
                 data.selectedProduct = JSON.parse(data.selectedProduct);
                 this.data = data ? data : [];
@@ -189,44 +191,32 @@ $(document).ready(function() {
                     console.log(action, '?')
                 }
             })
-            $('.transaction-type').addClass('capitalize').html(`${transaction.transaction_type}`);
-            $('.transaction-id').html(`<b>Transaction No: </b>${transaction.transaction_id}`);
+            $('.transaction-type').addClass('capitalize').html(
+                `${transaction.po_number ? transaction.po_number.toUpperCase(): "#"}`);
+            $('.transaction-po_number').html(
+                `<b>Purchase #: </b>${transaction.po_number ? transaction.po_number.toUpperCase(): "#"}`
+            );
             $('.transaction-date').html(`<b>Date: </b>${transaction.date_created}`);
             $('.shipping-info').addClass('capitalize').html(
-                `${transaction.shipping.shipping_id ? transaction.shipping.info.shipping_address : "#"}`
+                `${"#"}`
             );
             $('.delivery-note').addClass('capitalize').html(
-                `${transaction.shipping.shipping_id ? transaction.shipping.info.shipping_note : "#"}`
+                `${"#"}`
             );
             $('.customer-name').addClass('capitalize').html(
-                `${transaction.customer.customer_id ? transaction.customer.info.customer_name : "Walk-in Customer"}`
+                `${"Walk-in Customer"}`
             );
 
             let customer_info = ``;
             let delivery_info = ``;
-            if (transaction.customer.customer_id) {
-                customer_info = `
-            		${transaction.customer.info.customer_name}<br>
-            		${transaction.customer.info.customer_address}<br>
-            		${transaction.customer.info.customer_email}<br>
-            		${transaction.customer.info.customer_phone_no}
+
+            customer_info = `
+            		${transaction.po_supplier}<br><br><br><br>
             	`
-            } else {
-                customer_info = 'Walk-in Customer <br><br><br><br>';
-            }
 
-            if (transaction.shipping.shipping_id) {
-                delivery_info = `
-            		<div class="invoice-left">
-						<b>Delivery Address:</b>
-						<p class="mb-0 capitalize">${transaction.shipping.shipping_id ? transaction.shipping.info.shipping_address : "#"}<br>
-						Note: ${transaction.shipping.shipping_id && transaction.shipping.info.shipping_note.length ? transaction.shipping.info.shipping_note : "#"}</p>
-					</div>`
-            } else {
 
-            }
             $('.delivery-address').html(delivery_info);
-            $('.invoice-to').addClass('capitalize').html(customer_info);
+            $('.po_supplier').addClass('capitalize').html(customer_info);
             this.loadOrderSummary(transaction);
             this.print();
         },
@@ -234,27 +224,34 @@ $(document).ready(function() {
             const __self = this;
             let html = "";
             const selectedProduct = data.selectedProduct;
-            console.log(selectedProduct)
             if (selectedProduct.length) {
+                let overallTotal = 0;
                 for (let a = 0, count = selectedProduct.length; a < count; a++) {
                     const loopdata = selectedProduct[a];
+                    loopdata.original_price = loopdata.original_price ? parseFloat(loopdata
+                        .original_price) : 0;
+                    loopdata.quantity = loopdata.quantity ? parseInt(loopdata.quantity) : 0;
                     loopdata.display = {
-                        price: utils.currency(loopdata.transaction.price),
-                        subtotal: utils.currency(loopdata.transaction.subtotal)
+                        price: utils.currency(loopdata.original_price),
+                        subtotal: loopdata.original_price * loopdata.quantity
                     }
-
+                    overallTotal += loopdata.display.subtotal;
                     html += `
                   	<tr>
-						<td>${loopdata.info.product_name}</td>
-						<td>${loopdata.info.category} / ${loopdata.info.brand}</td>
-						<td class="currency">${loopdata.display.price}</td>
-						<td>${loopdata.transaction.quantity}</td>
-						<td class="currency">${loopdata.display.subtotal}</td>
+						<td>${loopdata.product_name}</td>
+						<td>${loopdata.category} / ${loopdata.brand}</td>
+						<td class="currency">${utils.currency(loopdata.display.price)}</td>
+						<td>${loopdata.quantity}</td>
+						<td class="currency">${utils.currency(loopdata.display.subtotal)}</td>
 					</tr>
                   `;
 
                     if (a == (count - 1)) {
                         $('.product-list').find('tbody').html(html);
+                        $('.transaction-info[data-action=sub_total]').html(utils.currency(
+                            overallTotal));
+                        $('.transaction-info[data-action=overall_total]').html(utils.currency(
+                            overallTotal));
                     }
                 }
             }

@@ -36,6 +36,23 @@
 				$input->pageTitle = "View Inventory Page"; // breadcrum title
 				$template->data($input)->content("inventory/view", true)->render("admin");
 			break;
+			case "print":
+				$trid = isset($req->get["purchase_order"]) ? $req->get["purchase_order"] : null ;
+				$input = $core->obj();
+				$input->title = "No Inventory";
+				$input->trid = $trid;
+				if(isset($trid)){
+					$query = $core->obj();
+					$query->condition = [["id", '=', $trid]];
+					$getData = $helper->product->getProductInventory($query);
+					if($getData->status){
+						$input->title = isset($getData->data->po_number) ? strtoupper($getData->data->po_number) : 'Purchase #';
+						$input->purchase_order = $getData->data;
+					}
+					$input->purchase_order = $getData->data;
+				}
+				$template->data($input)->content("inventory", true)->render("invoice");
+			break;
 		}
 	}
 ?>

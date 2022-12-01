@@ -43,6 +43,12 @@
 				// print_r($input);
 				$template->data($input)->content("transaction/delivery", true)->render("admin");
 			break;
+			case "sales":
+				$input = $core->obj();
+				$input->title = "Sales Page"; // header title
+				$input->pageTitle = "Sales Page"; // breadcrum title
+				$template->data($input)->content("transaction/sales", true)->render("admin");
+			break;
 			default:
 				$template->content("error/404", true)->render("frontstore");
 			break;

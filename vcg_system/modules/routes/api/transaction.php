@@ -93,6 +93,20 @@
 					$core->response($output);
 				}
 			break;
+			case "sales":
+				$output = $core->output();
+				$updateInput = $core->obj();
+				$add = $helper->transaction->getSales();
+				if($add->status){
+					$output = $add;
+					$output->message = "Successfully update user";
+					$output->status = true;
+					$core->response($output);
+				}else{
+					$output->message = $add->message;
+					$core->response($output);
+				}
+			break;
 		}
 	}
 ?>

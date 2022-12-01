@@ -15,7 +15,9 @@
 					$getTransaction = $helper->transaction->getTransaction($query);
 					if($getTransaction->status){
 						$input->title = $getTransaction->data->transaction_id;
+						$input->transaction = $getTransaction->data;
 					}
+					$input->transaction = $getTransaction->data;
 				}
 				$template->data($input)->content("main", true)->render("invoice");
 			break;

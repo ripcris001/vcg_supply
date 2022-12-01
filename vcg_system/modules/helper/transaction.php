@@ -66,5 +66,17 @@
 			$output->query  = $queryString;
 			return $output;
 		}
+
+		public function getSales($param = null){
+			$filter = new stdClass();
+			$filter->count = false;
+			$filter->all = isset($param->all) ? $param->all : null;
+			$queryString = "SELECT SUM(overall_total) AS `overall`,`date_created`  FROM `vgc_transaction` GROUP BY `date_created`";
+			
+			// $output = new stdClass();
+			$output = $this->helper->get($queryString, true);
+			$output->query  = $queryString;
+			return $output;
+		}
 	}
 ?>
