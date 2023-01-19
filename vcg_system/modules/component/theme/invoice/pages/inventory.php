@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-6">
                         <div class="text-end">
-                            <b>Transaction Type:</b>
+                            <b>Purchase Number:</b>
                             <br>
                             <span class="transaction-type"></span>
                         </div>

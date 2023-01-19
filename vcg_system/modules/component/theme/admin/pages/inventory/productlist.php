@@ -18,6 +18,7 @@
             <table class="data-table table mb-0 tbl-server-info" id="product-table">
                 <thead class="bg-white text-uppercase">
                     <tr class="ligth ligth-data">
+                        <th>ID</th>
                         <th>Size</th>
                         <th>Brand</th>
                         <th>Remaining qty.</th>
@@ -143,6 +144,8 @@
                         }
                     },
                     "columns": [{
+                        "data": "product_id"
+                    },{
                         "data": "product_name",
                         "className": 'uppercase'
                     },{

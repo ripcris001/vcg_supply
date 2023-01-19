@@ -10,6 +10,7 @@
                 Product
             </a>
         </li>
+        <!--
         <li class="nav-item">
             <a href="#" class="nav-link">
                 Services
@@ -27,7 +28,7 @@
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> -->
         <li class="nav-item">
             <a href="/contact" class="nav-link">
                 Contact
