@@ -119,29 +119,52 @@
 								$objAllTrans->chart->monthData[$alDate] += (int)$ldata["overall_total"];
 							}
 						}
-						$output->data->monthData = $objAllTrans->chart->monthData;
 					}
+					$output->data->monthData = $objAllTrans->chart->monthData;
 					// $output->qAllTrans = $qAllTrans->data;
 					// $output->data->all_sales = $qAllTrans->data;
 				}
 
+				// total transaction sale
+				$objItem = $core->obj();
+				$objItem->date = $core->obj();
+				$objItem->date->filter = $core->obj();
+				$objItem->date->filter->type = "year";
+				$objItem->date->filter->data = $helper->universal->getDateRange($objItem->date->filter);
+				$objItem->condition = [["date_created", '>=',$objItem->date->filter->data->start], ["date_created", '<=', $objItem->date->filter->data->end]];
+				$objItem->all = true;
+				$qItem = $helper->transaction->getTransaction($objItem);
+				if($qItem->status){
+					$item = [];
+					$reviceItem = [];
+					foreach ($qItem->data as $key => $value) {
+						$product = gettype($value["selectedProduct"]);
+						if($product == 'string'){
+							$product = json_decode($value["selectedProduct"]);
+							if(count($product) > 0){
+								foreach ($product as $pk => $pv) {
+									if(isset($item[$pv->product_id])){
+										$item[$pv->product_id]->count = $item[$pv->product_id]->count + $pv->transaction->quantity;
+									}else{
+										$itemInfo = new stdClass();
+										$itemInfo->product_name = $pv->info->product_name;
+										$itemInfo->count = $pv->transaction->quantity;
+										$itemInfo->brand = $pv->info->brand;
+										$itemInfo->category = $pv->info->category;
+										$item[$pv->product_id] = $itemInfo;
+									}
+								}
+							}
+						}
+					}
+					if(count($item)){
+						foreach ($item as $key => $value) {
+							$reviceItem[] = $value;
+						}
+					}
+					$output->data->top_item = $reviceItem;
+				}
 
-				// if($customer->status && $customer->data){
-				// 	$ccount = count($customer->data);
-				// 	for($a = 0, $ccount = count($customer->data); $a < $ccount; $a++){
-				// 		$cdata = $customer->data[$a];
-				// 		$iAddress = $core->obj();
-				// 		$iAddress->all = true;
-				// 		$iAddress->condition = [["customer_id", "=", $cdata["customer_id"]]];
-				// 		$qAddress = $helper->customer->getCustomerShipping($iAddress);
-				// 		if($qAddress->status){
-				// 			$customer->data[$a]["address"] = $qAddress->data;
-				// 		}
-				// 		if($a == ($ccount - 1)){
-				// 			$core->response($customer);
-				// 		}
-				// 	}
-				// }
 
 
 				$core->response($output);

@@ -106,6 +106,30 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-12">
+            <div class="card card-block card-stretch card-height">
+                <div class="card-header">
+                    <div class="header-title">
+                        <h4 class="card-title">Top Product</h4>
+                    </div>                        
+                    <div class="row">
+                        <div class="col-md-12" style="padding: 2em 1em;">
+                            <table class="data-table table mb-0 tbl-server-info" id="top-item-table">
+                                <thead class="bg-white text-uppercase">
+                                    <tr class="ligth ligth-data">
+                                        <th>Product Name</th>
+                                        <th>Brand</th>
+                                        <th>Category</th>
+                                        <th class="col-md-3">Sold Quantity</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>                    
+            </div>
+        </div>
+        
         <!-- <div class="col-lg-6">
             <div class="card card-block card-stretch card-height">
                 <div class="card-header d-flex align-items-center justify-content-between">
@@ -371,6 +395,12 @@
         const dashboard = {
             data: {},
             chart: {},
+            table: {
+                topitem: '#top-item-table'
+            },
+            datatable:{
+                topitem:null
+            },
             init: function(){
                 this.getDashboardData();
             },
@@ -380,6 +410,7 @@
                     if(res.status){
                         __self.data = res.data;
                         __self.genDisplay();
+                        __self.loadTable(res.data.top_item);
                     }else{
                         utils.notify.setTitle("Error").setMessage("Unable to generate dashboard data").setType("danger").load();
                     }
@@ -403,14 +434,12 @@
                         }
                         
                     })
-                     __self.chart();
-                    
+                    __self.chart();
                 }
-                console.log(data);
-
             }, chart: function(param = null ){
                 const __self = this;
                 const data = __self.data;
+                console.log(data);
                 const monthData = data.monthData;
                 const objMonth = Object.keys(monthData);
                 options = {
@@ -420,7 +449,7 @@
                     },
                     colors: ["#32BDEA", "#FF7E41"],
                     series: [{
-                        name: "Transactions",
+                        name: "Sales",
                         data: []
                     }],
                     title: {
@@ -461,8 +490,36 @@
                     chart = new ApexCharts(document.querySelector("#overall"), options).render();
                 }
                 console.log(data);
-                
-            }
+            },
+            loadTable: function(data) {
+                const s = this;
+                if ($.fn.DataTable.isDataTable(this.table.topitem)) {
+                    $(this.table.topitem).DataTable().destroy();
+                }
+                this.datatable.topitem = $(this.table.topitem).DataTable({
+                    "processing": true,
+                    "serverSide": false,
+                    "searching": false,
+                    "paginate": false,
+                    "sort": true,
+                    "info": false,
+                    "data": data,
+                    order: [[3, 'desc']],
+                    "columns": [{
+                        "data": "product_name",
+                        "className": "capitalize text-center",
+                    },{
+                        "data": "brand",
+                        "className": "capitalize",
+                    },{
+                        "data": "category",
+                        "className": "capitalize",
+                    },{
+                        "data": "count",
+                        "className": "text-center",
+                    }]
+                });
+            },
         }
 
         dashboard.init();   
