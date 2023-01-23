@@ -5,7 +5,7 @@
 	if($this->check_session()){
 		$customer = $this->get_session("customer");
 		$input = new stdClass();
-		$input->condition = [["customer_id", "=", $customer->customer_id], ["cart_status", "=", "pending"]];
+		$input->condition = [["customer_id", "=", isset($customer->customer_id) ? $customer->customer_id : 0], ["cart_status", "=", "pending"]];
 		$query = $helper->product->getProductToCart($input);
 		if($query->status){
 			$data->cart = $query->data;

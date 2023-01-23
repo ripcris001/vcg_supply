@@ -3,8 +3,8 @@
 
 	# database configuration
 	Define("DBHOST", "localhost");
-	Define("DBUSER", "root");
-	Define("DBPASS", "");
+	Define("DBUSER", "vgc_supply");
+	Define("DBPASS", "vgc_supply");
 	Define("DBNAME", "vgc_supply");
 	Define("DBPREFIX", "vgc_");
 
